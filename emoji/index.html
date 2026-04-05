@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Emoji表情大全 - 一键复制表情符号</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Emoji 表情大全</h1>
+        <div class="sub">📋 点击任意表情 — 自动复制，轻松使用</div>
+        <div class="search-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="搜索表情名称或直接输入关键词 (笑脸、动物、爱心...)" autocomplete="off">
+                <button class="clear-search" id="clearSearchBtn" aria-label="清空搜索">✖</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="categories" id="categoriesContainer">
+        <!-- 分类按钮动态生成 + 静态保底，但JS会动态渲染 -->
+    </div>
+
+    <div class="stats-bar">
+        <div class="result-count" id="resultCount">✨ 加载表情中...</div>
+        <div class="copy-tip">💡 点击卡片即复制 Emoji 到剪贴板</div>
+    </div>
+
+    <div id="emojiGrid" class="emoji-grid">
+        <!-- 动态渲染表情卡片 -->
+        <div class="empty-state">🎨 表情正在赶来...</div>
+    </div>
+    <div class="footer">
+        📦 收录常用表情符号 | 快速复制 | 分类筛选 | 支持关键词搜索
+    </div>
+</div>
+
+<div id="toastMsg" class="toast-message">✅ 已复制</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
