@@ -46,100 +46,149 @@ const smileys = [
     { emoji: "😡", name: "生气" }, { emoji: "😠", name: "愤怒" }, { emoji: "🤬", name: "脏话" },
     { emoji: "😈", name: "笑脸恶魔" }, { emoji: "👿", name: "怒恶魔" }, { emoji: "💀", name: "骷髅" },
     { emoji: "👻", name: "幽灵" }, { emoji: "🤡", name: "小丑" }, { emoji: "👽", name: "外星人" },
-    { emoji: "🤖", name: "机器人" }, { emoji: "💩", name: "便便" }, { emoji: "😺", name: "微笑猫" }
+    { emoji: "🤖", name: "机器人" }, { emoji: "💩", name: "便便" }, { emoji: "😺", name: "微笑猫" },
+    // 扩充笑脸
+    { emoji: "🙈", name: "不看猴" }, { emoji: "🙉", name: "不听猴" }, { emoji: "🙊", name: "不说猴" },
+    { emoji: "💋", name: "唇印" }, { emoji: "💌", name: "情书" }, { emoji: "💘", name: "爱心射中" },
+    { emoji: "💝", name: "礼物心" }, { emoji: "💖", name: "闪烁心" }, { emoji: "💗", name: "成长心" },
+    { emoji: "💓", name: "跳动心" }, { emoji: "💞", name: "旋转心" }, { emoji: "💕", name: "双心" },
+    { emoji: "💟", name: "心形装饰" }, { emoji: "❣️", name: "心形感叹号" }, { emoji: "💤", name: "睡觉Zzz" },
+    { emoji: "💦", name: "汗滴" }, { emoji: "💨", name: "冲刺" }, { emoji: "🕳️", name: "洞" },
+    { emoji: "💣", name: "炸弹" }, { emoji: "🔪", name: "刀" }, { emoji: "🏹", name: "弓箭" }
 ];
 addEmoji("smileys", smileys);
 
 // ========= 2. 动物 & 自然 =========
 const animals = [
-    { emoji: "🐶", name: "狗脸" }, { emoji: "🐱", name: "猫脸" }, { emoji: "🐭", name: "老鼠" },
-    { emoji: "🐹", name: "仓鼠" }, { emoji: "🐰", name: "兔子" }, { emoji: "🦊", name: "狐狸" },
-    { emoji: "🐻", name: "熊" }, { emoji: "🐼", name: "熊猫" }, { emoji: "🐨", name: "考拉" },
-    { emoji: "🐯", name: "老虎" }, { emoji: "🦁", name: "狮子" }, { emoji: "🐮", name: "牛" },
-    { emoji: "🐷", name: "猪" }, { emoji: "🐸", name: "青蛙" }, { emoji: "🐵", name: "猴脸" },
-    { emoji: "🐒", name: "猴子" }, { emoji: "🐔", name: "鸡" }, { emoji: "🐧", name: "企鹅" },
-    { emoji: "🐦", name: "鸟" }, { emoji: "🐤", name: "小鸡" }, { emoji: "🐥", name: "幼鸡" },
-    { emoji: "🐺", name: "狼" }, { emoji: "🐗", name: "野猪" }, { emoji: "🐴", name: "马" },
-    { emoji: "🦄", name: "独角兽" }, { emoji: "🐝", name: "蜜蜂" }, { emoji: "🐛", name: "毛毛虫" },
-    { emoji: "🦋", name: "蝴蝶" }, { emoji: "🐌", name: "蜗牛" }, { emoji: "🐞", name: "瓢虫" },
-    { emoji: "🐜", name: "蚂蚁" }, { emoji: "🦟", name: "蚊子" }, { emoji: "🦗", name: "蟋蟀" },
-    { emoji: "🕷️", name: "蜘蛛" }, { emoji: "🦂", name: "蝎子" }, { emoji: "🐢", name: "乌龟" },
-    { emoji: "🐍", name: "蛇" }, { emoji: "🦎", name: "蜥蜴" }, { emoji: "🐙", name: "章鱼" },
-    { emoji: "🦑", name: "鱿鱼" }, { emoji: "🦐", name: "虾" }, { emoji: "🦞", name: "龙虾" },
-    { emoji: "🐠", name: "热带鱼" }, { emoji: "🐟", name: "鱼" }, { emoji: "🐬", name: "海豚" },
-    { emoji: "🐳", name: "鲸鱼" }, { emoji: "🐋", name: "巨鲸" }, { emoji: "🦈", name: "鲨鱼" },
-    { emoji: "🌵", name: "仙人掌" }, { emoji: "🌸", name: "樱花" }, { emoji: "🌻", name: "向日葵" },
-    { emoji: "🍂", name: "落叶" }, { emoji: "☀️", name: "太阳" }, { emoji: "⭐", name: "星星" }
+    { emoji: "🐶", name: "狗脸" }, { emoji: "🐱", name: "猫脸" }, { emoji: "🐭", name: "老鼠" }, { emoji: "🐹", name: "仓鼠" },
+    { emoji: "🐰", name: "兔子" }, { emoji: "🦊", name: "狐狸" }, { emoji: "🐻", name: "熊" }, { emoji: "🐼", name: "熊猫" },
+    { emoji: "🐨", name: "考拉" }, { emoji: "🐯", name: "老虎" }, { emoji: "🦁", name: "狮子" }, { emoji: "🐮", name: "牛" },
+    { emoji: "🐷", name: "猪" }, { emoji: "🐸", name: "青蛙" }, { emoji: "🐵", name: "猴脸" }, { emoji: "🐒", name: "猴子" },
+    { emoji: "🐔", name: "鸡" }, { emoji: "🐧", name: "企鹅" }, { emoji: "🐦", name: "鸟" }, { emoji: "🐤", name: "小鸡" },
+    { emoji: "🐥", name: "幼鸡" }, { emoji: "🐺", name: "狼" }, { emoji: "🐗", name: "野猪" }, { emoji: "🐴", name: "马" },
+    { emoji: "🦄", name: "独角兽" }, { emoji: "🐝", name: "蜜蜂" }, { emoji: "🐛", name: "毛毛虫" }, { emoji: "🦋", name: "蝴蝶" },
+    { emoji: "🐌", name: "蜗牛" }, { emoji: "🐞", name: "瓢虫" }, { emoji: "🐜", name: "蚂蚁" }, { emoji: "🦟", name: "蚊子" },
+    { emoji: "🦗", name: "蟋蟀" }, { emoji: "🕷️", name: "蜘蛛" }, { emoji: "🦂", name: "蝎子" }, { emoji: "🐢", name: "乌龟" },
+    { emoji: "🐍", name: "蛇" }, { emoji: "🦎", name: "蜥蜴" }, { emoji: "🐙", name: "章鱼" }, { emoji: "🦑", name: "鱿鱼" },
+    { emoji: "🦐", name: "虾" }, { emoji: "🦞", name: "龙虾" }, { emoji: "🐠", name: "热带鱼" }, { emoji: "🐟", name: "鱼" },
+    { emoji: "🐬", name: "海豚" }, { emoji: "🐳", name: "鲸鱼" }, { emoji: "🐋", name: "巨鲸" }, { emoji: "🦈", name: "鲨鱼" },
+    { emoji: "🌵", name: "仙人掌" }, { emoji: "🌸", name: "樱花" }, { emoji: "🌻", name: "向日葵" }, { emoji: "🍂", name: "落叶" },
+    { emoji: "☀️", name: "太阳" }, { emoji: "⭐", name: "星星" }, { emoji: "🌙", name: "月亮" }, { emoji: "🌎", name: "地球美洲" },
+    { emoji: "🌍", name: "地球欧非" }, { emoji: "🌏", name: "地球亚洲" }, { emoji: "🌑", name: "新月" }, { emoji: "🌒", name: "娥眉月" },
+    { emoji: "🌓", name: "上弦月" }, { emoji: "🌔", name: "盈凸月" }, { emoji: "🌕", name: "满月" }, { emoji: "🌖", name: "亏凸月" },
+    { emoji: "🌗", name: "下弦月" }, { emoji: "🌘", name: "残月" }, { emoji: "🌝", name: "满月脸" }, { emoji: "🌞", name: "太阳脸" },
+    { emoji: "🐉", name: "龙" }, { emoji: "🐲", name: "龙头" }, { emoji: "🦕", name: "雷龙" }, { emoji: "🦖", name: "霸王龙" }
 ];
 addEmoji("animals", animals);
 
 // ========= 3. 食物 & 饮料 =========
 const foods = [
-    { emoji: "🍎", name: "苹果" }, { emoji: "🍐", name: "梨" }, { emoji: "🍊", name: "橘子" },
-    { emoji: "🍋", name: "柠檬" }, { emoji: "🍌", name: "香蕉" }, { emoji: "🍉", name: "西瓜" },
-    { emoji: "🍇", name: "葡萄" }, { emoji: "🍓", name: "草莓" }, { emoji: "🫐", name: "蓝莓" },
-    { emoji: "🍒", name: "樱桃" }, { emoji: "🥝", name: "奇异果" }, { emoji: "🍅", name: "番茄" },
-    { emoji: "🥑", name: "牛油果" }, { emoji: "🍆", name: "茄子" }, { emoji: "🥔", name: "土豆" },
-    { emoji: "🥕", name: "胡萝卜" }, { emoji: "🌽", name: "玉米" }, { emoji: "🥦", name: "西兰花" },
-    { emoji: "🍔", name: "汉堡" }, { emoji: "🍟", name: "薯条" }, { emoji: "🍕", name: "披萨" },
-    { emoji: "🌭", name: "热狗" }, { emoji: "🥪", name: "三明治" }, { emoji: "🍚", name: "米饭" },
-    { emoji: "🍣", name: "寿司" }, { emoji: "🍜", name: "拉面" }, { emoji: "🍦", name: "冰淇淋" },
-    { emoji: "🍩", name: "甜甜圈" }, { emoji: "🍪", name: "饼干" }, { emoji: "☕", name: "热饮" },
-    { emoji: "🍺", name: "啤酒" }, { emoji: "🥂", name: "干杯" }, { emoji: "🍷", name: "红酒" }
+    { emoji: "🍎", name: "苹果" }, { emoji: "🍐", name: "梨" }, { emoji: "🍊", name: "橘子" }, { emoji: "🍋", name: "柠檬" },
+    { emoji: "🍌", name: "香蕉" }, { emoji: "🍉", name: "西瓜" }, { emoji: "🍇", name: "葡萄" }, { emoji: "🍓", name: "草莓" },
+    { emoji: "🫐", name: "蓝莓" }, { emoji: "🍒", name: "樱桃" }, { emoji: "🥝", name: "奇异果" }, { emoji: "🍅", name: "番茄" },
+    { emoji: "🥑", name: "牛油果" }, { emoji: "🍆", name: "茄子" }, { emoji: "🥔", name: "土豆" }, { emoji: "🥕", name: "胡萝卜" },
+    { emoji: "🌽", name: "玉米" }, { emoji: "🥦", name: "西兰花" }, { emoji: "🍔", name: "汉堡" }, { emoji: "🍟", name: "薯条" },
+    { emoji: "🍕", name: "披萨" }, { emoji: "🌭", name: "热狗" }, { emoji: "🥪", name: "三明治" }, { emoji: "🍚", name: "米饭" },
+    { emoji: "🍣", name: "寿司" }, { emoji: "🍜", name: "拉面" }, { emoji: "🍦", name: "冰淇淋" }, { emoji: "🍩", name: "甜甜圈" },
+    { emoji: "🍪", name: "饼干" }, { emoji: "☕", name: "热饮" }, { emoji: "🍺", name: "啤酒" }, { emoji: "🥂", name: "干杯" },
+    { emoji: "🍷", name: "红酒" }, { emoji: "🥛", name: "一杯牛奶" }, { emoji: "🧋", name: "珍珠奶茶" }, { emoji: "🍵", name: "抹茶" },
+    { emoji: "🧃", name: "果汁盒" }, { emoji: "🥤", name: "杯装饮料" }, { emoji: "🍶", name: "清酒" }, { emoji: "🍾", name: "开瓶香槟" },
+    { emoji: "🥞", name: "松饼" }, { emoji: "🧁", name: "纸杯蛋糕" }, { emoji: "🍰", name: "蛋糕" }, { emoji: "🎂", name: "生日蛋糕" },
+    { emoji: "🍬", name: "糖果" }, { emoji: "🍭", name: "棒棒糖" }, { emoji: "🍫", name: "巧克力" }, { emoji: "🍿", name: "爆米花" }
 ];
 addEmoji("food", foods);
 
 // ========= 4. 旅行 & 地点 =========
 const travels = [
-    { emoji: "🚗", name: "汽车" }, { emoji: "🚕", name: "出租车" }, { emoji: "🚌", name: "公交车" },
-    { emoji: "🚲", name: "自行车" }, { emoji: "✈️", name: "飞机" }, { emoji: "🚀", name: "火箭" },
-    { emoji: "🚁", name: "直升机" }, { emoji: "⛵", name: "帆船" }, { emoji: "🏖️", name: "海滩" },
-    { emoji: "🏔️", name: "雪山" }, { emoji: "🗽", name: "自由女神" }, { emoji: "🏯", name: "日本城堡" },
-    { emoji: "🎡", name: "摩天轮" }, { emoji: "🌋", name: "火山" }, { emoji: "🌈", name: "彩虹" },
-    { emoji: "🌙", name: "月亮" }, { emoji: "⭐", name: "星星" }, { emoji: "🌍", name: "地球" }
+    { emoji: "🚗", name: "汽车" }, { emoji: "🚕", name: "出租车" }, { emoji: "🚌", name: "公交车" }, { emoji: "🚲", name: "自行车" },
+    { emoji: "✈️", name: "飞机" }, { emoji: "🚀", name: "火箭" }, { emoji: "🚁", name: "直升机" }, { emoji: "⛵", name: "帆船" },
+    { emoji: "🏖️", name: "海滩" }, { emoji: "🏔️", name: "雪山" }, { emoji: "🗽", name: "自由女神" }, { emoji: "🏯", name: "日本城堡" },
+    { emoji: "🎡", name: "摩天轮" }, { emoji: "🌋", name: "火山" }, { emoji: "🌈", name: "彩虹" }, { emoji: "🌍", name: "地球" },
+    { emoji: "🚄", name: "高铁" }, { emoji: "🚅", name: "子弹列车" }, { emoji: "🚇", name: "地铁" }, { emoji: "🚊", name: "电车" },
+    { emoji: "🚤", name: "快艇" }, { emoji: "🛳️", name: "渡轮" }, { emoji: "⛴️", name: "大型渡轮" }, { emoji: "🛩️", name: "小飞机" },
+    { emoji: "🪂", name: "降落伞" }, { emoji: "🏰", name: "城堡" }, { emoji: "🗼", name: "东京塔" }, { emoji: "🏟️", name: "体育场" },
+    { emoji: "🎢", name: "过山车" }, { emoji: "🏝️", name: "荒岛" }, { emoji: "⛰️", name: "高山" }, { emoji: "🏜️", name: "沙漠" }
 ];
 addEmoji("travel", travels);
 
 // ========= 5. 活动 =========
 const activities = [
-    { emoji: "⚽", name: "足球" }, { emoji: "🏀", name: "篮球" }, { emoji: "🏈", name: "橄榄球" },
-    { emoji: "⚾", name: "棒球" }, { emoji: "🎾", name: "网球" }, { emoji: "🏐", name: "排球" },
-    { emoji: "🎮", name: "电子游戏" }, { emoji: "🎲", name: "骰子" }, { emoji: "🎯", name: "靶心" },
-    { emoji: "🎳", name: "保龄球" }, { emoji: "🎤", name: "麦克风" }, { emoji: "🎧", name: "耳机" },
-    { emoji: "🎸", name: "吉他" }, { emoji: "🎹", name: "钢琴" }, { emoji: "🎭", name: "戏剧" },
-    { emoji: "🎨", name: "艺术" }
+    { emoji: "⚽", name: "足球" }, { emoji: "🏀", name: "篮球" }, { emoji: "🏈", name: "橄榄球" }, { emoji: "⚾", name: "棒球" },
+    { emoji: "🎾", name: "网球" }, { emoji: "🏐", name: "排球" }, { emoji: "🎮", name: "电子游戏" }, { emoji: "🎲", name: "骰子" },
+    { emoji: "🎯", name: "靶心" }, { emoji: "🎳", name: "保龄球" }, { emoji: "🎤", name: "麦克风" }, { emoji: "🎧", name: "耳机" },
+    { emoji: "🎸", name: "吉他" }, { emoji: "🎹", name: "钢琴" }, { emoji: "🎭", name: "戏剧" }, { emoji: "🎨", name: "艺术" },
+    { emoji: "🏆", name: "奖杯" }, { emoji: "🥇", name: "金牌" }, { emoji: "🥈", name: "银牌" }, { emoji: "🥉", name: "铜牌" },
+    { emoji: "🎽", name: "运动背心" }, { emoji: "🕹️", name: "游戏摇杆" }, { emoji: "🎲", name: "骰子" }, { emoji: "♟️", name: "国际象棋" },
+    { emoji: "🎱", name: "台球" }, { emoji: "🏓", name: "乒乓球" }, { emoji: "🥊", name: "拳击手套" }, { emoji: "🥋", name: "武术道服" }
 ];
 addEmoji("activities", activities);
 
 // ========= 6. 物体 =========
 const objects = [
-    { emoji: "⌚", name: "手表" }, { emoji: "📱", name: "手机" }, { emoji: "💻", name: "笔记本电脑" },
-    { emoji: "⌨️", name: "键盘" }, { emoji: "🖥️", name: "电脑" }, { emoji: "🖨️", name: "打印机" },
-    { emoji: "📷", name: "相机" }, { emoji: "📺", name: "电视" }, { emoji: "💡", name: "灯泡" },
-    { emoji: "🔦", name: "手电筒" }, { emoji: "📚", name: "书本" }, { emoji: "✏️", name: "铅笔" },
-    { emoji: "📎", name: "回形针" }, { emoji: "🔒", name: "锁" }, { emoji: "🔑", name: "钥匙" },
-    { emoji: "🧸", name: "泰迪熊" }, { emoji: "🎁", name: "礼物" }
+    { emoji: "⌚", name: "手表" }, { emoji: "📱", name: "手机" }, { emoji: "💻", name: "笔记本电脑" }, { emoji: "⌨️", name: "键盘" },
+    { emoji: "🖥️", name: "电脑" }, { emoji: "🖨️", name: "打印机" }, { emoji: "📷", name: "相机" }, { emoji: "📺", name: "电视" },
+    { emoji: "💡", name: "灯泡" }, { emoji: "🔦", name: "手电筒" }, { emoji: "📚", name: "书本" }, { emoji: "✏️", name: "铅笔" },
+    { emoji: "📎", name: "回形针" }, { emoji: "🔒", name: "锁" }, { emoji: "🔑", name: "钥匙" }, { emoji: "🧸", name: "泰迪熊" },
+    { emoji: "🎁", name: "礼物" }, { emoji: "🪞", name: "镜子" }, { emoji: "🪟", name: "窗户" }, { emoji: "🧹", name: "扫帚" },
+    { emoji: "🧺", name: "洗衣篮" }, { emoji: "🧻", name: "卷纸" }, { emoji: "🚰", name: "饮用水" }, { emoji: "🛀", name: "沐浴" },
+    { emoji: "🪒", name: "剃须刀" }, { emoji: "🧴", name: "乳液瓶" }, { emoji: "🧷", name: "别针" }, { emoji: "🧩", name: "拼图" }
 ];
 addEmoji("objects", objects);
 
 // ========= 7. 符号 =========
 const symbols = [
-    { emoji: "❤️", name: "红心" }, { emoji: "🧡", name: "橙心" }, { emoji: "💛", name: "黄心" },
-    { emoji: "💚", name: "绿心" }, { emoji: "💙", name: "蓝心" }, { emoji: "💜", name: "紫心" },
-    { emoji: "🖤", name: "黑心" }, { emoji: "💔", name: "心碎" }, { emoji: "💯", name: "百分百" },
-    { emoji: "❗", name: "感叹号" }, { emoji: "❓", name: "问号" }, { emoji: "♻️", name: "回收" },
-    { emoji: "⚜️", name: "鸢尾花" }, { emoji: "®️", name: "注册" }, { emoji: "©️", name: "版权" }
+    { emoji: "❤️", name: "红心" }, { emoji: "🧡", name: "橙心" }, { emoji: "💛", name: "黄心" }, { emoji: "💚", name: "绿心" },
+    { emoji: "💙", name: "蓝心" }, { emoji: "💜", name: "紫心" }, { emoji: "🖤", name: "黑心" }, { emoji: "💔", name: "心碎" },
+    { emoji: "💯", name: "百分百" }, { emoji: "❗", name: "感叹号" }, { emoji: "❓", name: "问号" }, { emoji: "♻️", name: "回收" },
+    { emoji: "⚜️", name: "鸢尾花" }, { emoji: "®️", name: "注册" }, { emoji: "©️", name: "版权" }, { emoji: "™️", name: "商标" },
+    { emoji: "🔞", name: "18禁" }, { emoji: "🈲", name: "禁止" }, { emoji: "🉑", name: "可接受" }, { emoji: "🈳", name: "空" },
+    { emoji: "🈴", name: "合格" }, { emoji: "🈶", name: "有" }, { emoji: "🈚", name: "无" }, { emoji: "🆗", name: "OK" },
+    { emoji: "🆚", name: "VS" }, { emoji: "🆒", name: "酷" }, { emoji: "🆕", name: "新" }, { emoji: "🆖", name: "NG" },
+    { emoji: "♈", name: "白羊座" }, { emoji: "♉", name: "金牛座" }, { emoji: "♊", name: "双子座" }, { emoji: "♋", name: "巨蟹座" },
+    { emoji: "♌", name: "狮子座" }, { emoji: "♍", name: "处女座" }, { emoji: "♎", name: "天秤座" }, { emoji: "♏", name: "天蝎座" },
+    { emoji: "♐", name: "射手座" }, { emoji: "♑", name: "摩羯座" }, { emoji: "♒", name: "水瓶座" }, { emoji: "♓", name: "双鱼座" }
 ];
 addEmoji("symbols", symbols);
 
 // ========= 8. 旗帜 =========
 const flags = [
-    { emoji: "🏁", name: "方格旗" }, { emoji: "🚩", name: "三角旗" }, { emoji: "🎌", name: "交叉旗" },
-    { emoji: "🇨🇳", name: "中国" }, { emoji: "🇺🇸", name: "美国" }, { emoji: "🇯🇵", name: "日本" },
-    { emoji: "🇰🇷", name: "韩国" }, { emoji: "🇬🇧", name: "英国" }, { emoji: "🇫🇷", name: "法国" },
-    { emoji: "🇩🇪", name: "德国" }, { emoji: "🇮🇹", name: "意大利" }
+    { emoji: "🏁", name: "方格旗" }, { emoji: "🚩", name: "三角旗" }, { emoji: "🎌", name: "交叉旗" }, { emoji: "🇨🇳", name: "中国" },
+    { emoji: "🇺🇸", name: "美国" }, { emoji: "🇯🇵", name: "日本" }, { emoji: "🇰🇷", name: "韩国" }, { emoji: "🇬🇧", name: "英国" },
+    { emoji: "🇫🇷", name: "法国" }, { emoji: "🇩🇪", name: "德国" }, { emoji: "🇮🇹", name: "意大利" }, { emoji: "🇷🇺", name: "俄罗斯" },
+    { emoji: "🇨🇦", name: "加拿大" }, { emoji: "🇦🇺", name: "澳大利亚" }, { emoji: "🇧🇷", name: "巴西" }, { emoji: "🇮🇳", name: "印度" }
 ];
 addEmoji("flags", flags);
+
+// ========= 9. 新增: 服饰 & 配饰 =========
+const clothing = [
+    { emoji: "👕", name: "T恤" }, { emoji: "👖", name: "牛仔裤" }, { emoji: "👗", name: "连衣裙" }, { emoji: "👘", name: "和服" },
+    { emoji: "🥻", name: "纱丽" }, { emoji: "🩱", name: "泳衣" }, { emoji: "🩲", name: "泳裤" }, { emoji: "🩳", name: "短裤" },
+    { emoji: "👙", name: "比基尼" }, { emoji: "👚", name: "女装" }, { emoji: "👛", name: "钱包" }, { emoji: "👜", name: "手提包" },
+    { emoji: "👝", name: "手包" }, { emoji: "🛍️", name: "购物袋" }, { emoji: "🎒", name: "书包" }, { emoji: "👞", name: "男鞋" },
+    { emoji: "👟", name: "运动鞋" }, { emoji: "🥾", name: "登山靴" }, { emoji: "🥿", name: "平底鞋" }, { emoji: "👠", name: "高跟鞋" },
+    { emoji: "👡", name: "凉鞋" }, { emoji: "👢", name: "长靴" }, { emoji: "👑", name: "王冠" }, { emoji: "👒", name: "帽子" },
+    { emoji: "🎩", name: "礼帽" }, { emoji: "🧢", name: "棒球帽" }, { emoji: "🧣", name: "围巾" }, { emoji: "🧤", name: "手套" }
+];
+addEmoji("clothing", clothing);
+
+// ========= 10. 新增: 天气 & 时间 =========
+const weather = [
+    { emoji: "🌡️", name: "温度计" }, { emoji: "☀️", name: "晴天" }, { emoji: "☁️", name: "多云" }, { emoji: "⛅", name: "晴转多云" },
+    { emoji: "🌤️", name: "少云" }, { emoji: "🌥️", name: "多云间晴" }, { emoji: "🌦️", name: "小雨转晴" }, { emoji: "🌧️", name: "雨天" },
+    { emoji: "⛈️", name: "雷雨" }, { emoji: "🌩️", name: "雷电" }, { emoji: "🌨️", name: "雪天" }, { emoji: "❄️", name: "雪花" },
+    { emoji: "☃️", name: "雪人" }, { emoji: "⛄", name: "雪人无雪" }, { emoji: "🌫️", name: "雾天" }, { emoji: "💨", name: "大风" },
+    { emoji: "🕐", name: "一点钟" }, { emoji: "🕑", name: "两点钟" }, { emoji: "🕒", name: "三点钟" }, { emoji: "⏰", name: "闹钟" },
+    { emoji: "⏲️", name: "计时器" }, { emoji: "⌛", name: "沙漏" }, { emoji: "⏳", name: "流动沙漏" }, { emoji: "📅", name: "日历" }
+];
+addEmoji("weather", weather);
+
+// ========= 11. 新增: 乐器 & 音乐 =========
+const music = [
+    { emoji: "🎵", name: "音符" }, { emoji: "🎶", name: "多音符" }, { emoji: "🎙️", name: "麦克风" }, { emoji: "🎚️", name: "推子" },
+    { emoji: "🎛️", name: "调音台" }, { emoji: "🎷", name: "萨克斯" }, { emoji: "🎺", name: "小号" }, { emoji: "🎸", name: "吉他" },
+    { emoji: "🪕", name: "班卓琴" }, { emoji: "🎻", name: "小提琴" }, { emoji: "🥁", name: "鼓" }, { emoji: "🪘", name: "长鼓" }
+];
+addEmoji("music", music);
 
 // 分类元数据 (显示名称和key)
 const categoriesMeta = [
@@ -151,7 +200,10 @@ const categoriesMeta = [
     { key: "activities", label: "⚽ 活动" },
     { key: "objects", label: "📦 物体" },
     { key: "symbols", label: "💟 符号" },
-    { key: "flags", label: "🏳️ 旗帜" }
+    { key: "flags", label: "🏳️ 旗帜" },
+    { key: "clothing", label: "👗 服饰 & 配饰" },
+    { key: "weather", label: "🌦️ 天气 & 时间" },
+    { key: "music", label: "🎵 乐器 & 音乐" }
 ];
 
 // DOM 元素
