@@ -67,6 +67,21 @@
         </div>
     </div>
 
+    <!-- 模板选择对话框 -->
+    <div class="modal-overlay" id="templateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-th-large"></i> 选择示例模板</h3>
+                <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="template-grid" id="templateGrid">
+                    <!-- 模板卡片将通过JS动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="status-bar">
         <span><i class="far fa-save"></i> 自动保存至本地</span>
         <span id="cursorPos"><i class="far fa-caret-square-right"></i> 行:1 列:1</span>
