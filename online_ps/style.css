@@ -1,0 +1,112 @@
+:root {
+    --bg-primary: #1e1e1e;
+    --bg-secondary: #2d2d2d;
+    --bg-panel: #333333;
+    --text-primary: #e0e0e0;
+    --accent: #4a90e2;
+    --accent-hover: #357abd;
+    --border: #444;
+    --shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 顶部导航 */
+.app-header {
+    background: var(--bg-secondary);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+.app-header h1 { font-size: 1.1rem; font-weight: 500; }
+.header-actions { display: flex; gap: 10px; align-items: center; }
+
+button, .file-upload {
+    background: var(--bg-panel);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+button:hover, .file-upload:hover { background: var(--accent); border-color: var(--accent); }
+.file-upload input { display: none; }
+
+/* 主布局 */
+.app-main {
+    display: grid;
+    grid-template-columns: 160px 1fr 200px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.toolbar, .filter-panel {
+    background: var(--bg-secondary);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.toolbar { border-right: 1px solid var(--border); }
+.filter-panel { border-left: 1px solid var(--border); }
+
+.tool-btn { width: 100%; text-align: left; }
+.tool-btn.active { background: var(--accent); border-color: var(--accent); }
+
+.tool-settings { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+.tool-settings label, .filter-control label {
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--text-primary);
+}
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+input[type="color"] { width: 100%; height: 30px; border: none; cursor: pointer; }
+
+/* 画布区域 */
+.canvas-wrapper {
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 20px;
+}
+canvas {
+    background: #ffffff;
+    box-shadow: var(--shadow);
+    cursor: crosshair;
+    display: block;
+}
+
+/* 响应式适配 */
+@media (max-width: 900px) {
+    .app-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+    .toolbar, .filter-panel {
+        border: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px;
+        gap: 8px;
+    }
+    .toolbar { border-bottom: 1px solid var(--border); }
+    .filter-panel { border-top: 1px solid var(--border); }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>墨客编辑器 | 优雅的Markdown实时预览工具</title>
+    <!-- 引入字体与图标库 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="style.css">
+    <!-- marked 和 highlight.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 自定义脚本 -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+<div class="app">
+    <!-- 工具栏 -->
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <button class="toolbar-btn" data-action="bold" title="加粗 (Ctrl+B)"><i class="fas fa-bold"></i></button>
+            <button class="toolbar-btn" data-action="italic" title="斜体 (Ctrl+I)"><i class="fas fa-italic"></i></button>
+            <button class="toolbar-btn" data-action="heading" title="标题 H2"><i class="fas fa-heading"></i></button>
+            <button class="toolbar-btn" data-action="link" title="插入链接"><i class="fas fa-link"></i></button>
+            <button class="toolbar-btn" data-action="image" title="插入图片"><i class="fas fa-image"></i></button>
+        </div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" data-action="ulist" title="无序列表"><i class="fas fa-list-ul"></i></button>
+            <button class="toolbar-btn" data-action="olist" title="有序列表"><i class="fas fa-list-ol"></i></button>
+            <button class="toolbar-btn" data-action="codeblock" title="代码块"><i class="fas fa-code"></i></button>
+            <button class="toolbar-btn" data-action="quote" title="引用"><i class="fas fa-quote-right"></i></button>
+            <button class="toolbar-btn" data-action="table" title="插入表格"><i class="fas fa-table"></i></button>
+            <button class="toolbar-btn" data-action="toc" title="插入目录 [TOC]"><i class="fas fa-list"></i></button>
+        </div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" data-action="save" title="导出 .md 文件"><i class="fas fa-download"></i></button>
+            <button class="toolbar-btn" data-action="copyMd" title="复制 Markdown 源码"><i class="fas fa-copy"></i></button>
+            <button class="toolbar-btn" data-action="copyHtml" title="复制 HTML 内容"><i class="fab fa-html5"></i></button>
+            <button class="toolbar-btn" data-action="clear" title="清空编辑器"><i class="fas fa-eraser"></i></button>
+            <button class="toolbar-btn" data-action="sample" title="加载示例文档"><i class="fas fa-file-alt"></i></button>
+        </div>
+        <div class="sync-check">
+            <i class="fas fa-arrows-alt-v"></i>
+            <span>同步滚动</span>
+            <input type="checkbox" id="syncScrollToggle" checked>
+        </div>
+    </div>
+
+    <!-- 编辑核心区 + 可拖拽 -->
+    <div class="editor-container">
+        <div class="editor-pane" id="editorPane">
+            <div class="pane-header">
+                <span><i class="fab fa-markdown"></i> Markdown 源码</span>
+                <span class="count-badge" id="wordCount">0 字符</span>
+            </div>
+            <textarea id="markdownInput" placeholder="在此编写 Markdown ..."></textarea>
+        </div>
+        <div class="resizer" id="resizer"></div>
+        <div class="preview-pane" id="previewPane">
+            <div class="pane-header">
+                <span><i class="fas fa-eye"></i> 实时预览</span>
+                <span class="count-badge"><i class="far fa-clock"></i> 即时渲染</span>
+            </div>
+            <div class="preview-content" id="previewContent"></div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <span><i class="far fa-save"></i> 自动保存至本地</span>
+        <span id="cursorPos"><i class="far fa-caret-square-right"></i> 行:1 列:1</span>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+```
