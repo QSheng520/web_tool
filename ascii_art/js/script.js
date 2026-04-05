@@ -210,30 +210,253 @@ downloadImgBtn.addEventListener('click', () => {
 });
 
 // ========= 文本模式: figlet 转换 =========
-function generateTextArt() {
+// 标记字体是否已加载
+let fontsLoaded = false;
+let fontLoadPromise = null;
+let loadAttempts = 0;
+const MAX_LOAD_ATTEMPTS = 3; // 最大重试次数
+
+// 设置 figlet 的字体路径（使用本地字体文件）
+function setFigletFontPath() {
+    if (typeof figlet !== 'undefined') {
+        // 字体文件位于 fonts/core/ 目录下
+        figlet.defaults({
+            fontPath: './fonts/core/'
+        });
+    }
+}
+
+// 预加载所有需要的字体（带重试机制）
+async function preloadFonts() {
+    if (fontLoadPromise) return fontLoadPromise;
+    
+    if (typeof figlet === 'undefined') {
+        throw new Error('Figlet库未加载');
+    }
+    
+    // 定义字体及其所在目录
+    const fontMap = {
+        // Core 字体
+        'standard': './fonts/core/standard.flf',
+        'slant': './fonts/core/slant.flf',
+        'bubble': './fonts/core/bubble.flf',
+        'digital': './fonts/core/digital.flf',
+        'block': './fonts/core/block.flf',
+        'lean': './fonts/core/lean.flf',
+        'mini': './fonts/core/mini.flf',
+        'banner': './fonts/core/banner.flf',
+        'big': './fonts/core/big.flf',
+        'script': './fonts/core/script.flf',
+        'shadow': './fonts/core/shadow.flf',
+        'small': './fonts/core/small.flf',
+        'term': './fonts/core/term.flf',
+        'ivrit': './fonts/core/ivrit.flf',
+        'smscript': './fonts/core/smscript.flf',
+        'smshadow': './fonts/core/smshadow.flf',
+        'smslant': './fonts/core/smslant.flf',
+        // Contributed 字体（精选）
+        'alligator': './fonts/contributed/alligator.flf',
+        'alpha': './fonts/contributed/alpha.flf',
+        'arrows': './fonts/contributed/arrows.flf',
+        'broadway': './fonts/contributed/broadway.flf',
+        'bulbhead': './fonts/contributed/bulbhead.flf',
+        'caligraphy': './fonts/contributed/caligraphy.flf',
+        'chunky': './fonts/contributed/chunky.flf',
+        'colossal': './fonts/contributed/colossal.flf',
+        'crazy': './fonts/contributed/crazy.flf',
+        'dancingfont': './fonts/contributed/dancingfont.flf',
+        'defleppard': './fonts/contributed/defleppard.flf',
+        'diamond': './fonts/contributed/diamond.flf',
+        'doom': './fonts/contributed/doom.flf',
+        'dotmatrix': './fonts/contributed/dotmatrix.flf',
+        'epic': './fonts/contributed/epic.flf',
+        'ghost': './fonts/contributed/ghost.flf',
+        'gothic': './fonts/contributed/gothic.flf',
+        'graffiti': './fonts/contributed/graffiti.flf',
+        'hollywood': './fonts/contributed/hollywood.flf',
+        'isometric1': './fonts/contributed/isometric1.flf',
+        'isometric2': './fonts/contributed/isometric2.flf',
+        'isometric3': './fonts/contributed/isometric3.flf',
+        'isometric4': './fonts/contributed/isometric4.flf',
+        'larry3d': './fonts/contributed/larry3d.flf',
+        'lcd': './fonts/contributed/lcd.flf',
+        'nancyj': './fonts/contributed/nancyj.flf',
+        'ogre': './fonts/contributed/ogre.flf',
+        'poison': './fonts/contributed/poison.flf',
+        'puffy': './fonts/contributed/puffy.flf',
+        'rectangles': './fonts/contributed/rectangles.flf',
+        'roman': './fonts/contributed/roman.flf',
+        'starwars': './fonts/contributed/starwars.flf',
+        'stellar': './fonts/contributed/stellar.flf',
+        'three_d': './fonts/contributed/three_d.flf',
+        'univers': './fonts/contributed/univers.flf',
+        'usaflag': './fonts/contributed/usaflag.flf',
+        // International 字体
+        'katakana': './fonts/international/katakana.flf',
+        'morse': './fonts/international/morse.flf',
+        'runic': './fonts/international/runic.flf',
+        'tengwar': './fonts/international/tengwar.flf'
+    };
+    
+    const fonts = Object.keys(fontMap);
+    
+    const tryLoadFonts = async () => {
+        setFigletFontPath();
+        
+        const loadPromises = fonts.map(fontName => {
+            return new Promise((resolve, reject) => {
+                const timeout = setTimeout(() => {
+                    reject(new Error(`字体 ${fontName} 加载超时`));
+                }, 10000); // 10秒超时
+                
+                // 使用 fetch 直接加载字体文件，然后注册到 figlet
+                fetch(fontMap[fontName])
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(fontData => {
+                        // 将字体数据注册到 figlet
+                        figlet.parseFont(fontName, fontData);
+                        console.log(`字体 ${fontName} 加载成功`);
+                        clearTimeout(timeout);
+                        resolve(true);
+                    })
+                    .catch(err => {
+                        clearTimeout(timeout);
+                        console.warn(`字体 ${fontName} 加载失败:`, err.message);
+                        resolve(false);
+                    });
+            });
+        });
+        
+        const results = await Promise.allSettled(loadPromises);
+        const successCount = results.filter(r => r.status === 'fulfilled' && r.value).length;
+        console.log(`字体加载完成: ${successCount}/${fonts.length} 成功`);
+        
+        if (successCount === 0) {
+            throw new Error('所有字体加载失败');
+        }
+        
+        return successCount > 0;
+    };
+    
+    fontLoadPromise = (async () => {
+        while (loadAttempts < MAX_LOAD_ATTEMPTS) {
+            try {
+                loadAttempts++;
+                console.log(`尝试第 ${loadAttempts} 次加载字体...`);
+                await tryLoadFonts();
+                fontsLoaded = true;
+                console.log('字体加载成功！');
+                return true;
+            } catch (err) {
+                console.error(`第 ${loadAttempts} 次加载失败:`, err);
+                
+                if (loadAttempts < MAX_LOAD_ATTEMPTS) {
+                    // 等待一段时间后重试
+                    await new Promise(resolve => setTimeout(resolve, 1000 * loadAttempts));
+                }
+            }
+        }
+        
+        throw new Error(`字体加载失败，已重试 ${MAX_LOAD_ATTEMPTS} 次`);
+    })();
+    
+    return fontLoadPromise;
+}
+
+// 生成文本艺术字
+async function generateTextArt() {
     const text = inputTextArea.value.trim();
     if (text === "") {
         textAsciiPre.innerText = "⚠️ 请输入一些文字 (字母、数字、符号)";
         lastTextAscii = "";
         return;
     }
-    const font = figletFontSelect.value;
-    textAsciiPre.innerText = "⏳ 字体渲染中...";
-    // 使用figlet库，需要确保已经加载
+    
+    // 检查 figlet 库是否加载
     if (typeof figlet === 'undefined') {
-        textAsciiPre.innerText = "❌ Figlet库未加载，请检查网络后刷新页面。";
+        textAsciiPre.innerText = "❌ Figlet库未加载\n\n可能原因:\n1. CDN网络访问受限\n2. 网络连接异常\n\n建议:\n• 刷新页面重试\n• 检查网络连接\n• 仅使用英文字母和数字";
         return;
     }
-    figlet.text(text, { font: font }, (err, data) => {
-        if (err) {
-            console.warn(err);
-            textAsciiPre.innerText = "❌ 字体转换失败，可能不支持的字符或字体错误。\n请尝试简化文字或更换字体。";
+    
+    // 确保字体已加载
+    if (!fontsLoaded) {
+        textAsciiPre.innerText = "⏳ 正在加载字体资源...";
+        try {
+            await preloadFonts();
+        } catch (err) {
+            console.error('字体加载错误:', err);
+            textAsciiPre.innerText = `❌ 字体资源加载失败
+
+错误信息: ${err.message}
+
+解决方案:
+1. 🔄 点击「生成艺术字」按钮重试
+2. 🌐 检查网络连接或切换网络环境
+3. 🔤 仅使用英文字母和数字(A-Z, 0-9)
+4. ⚙️ 尝试更换其他字体风格
+5. 📡 如果使用了代理，请检查代理设置`;
+            return;
+        }
+    }
+    
+    const font = figletFontSelect.value;
+    textAsciiPre.innerText = "⏳ 字体渲染中...";
+    
+    // 包装 figlet.text 为 Promise 并添加超时
+    const renderWithTimeout = (text, options, timeout = 15000) => {
+        return new Promise((resolve, reject) => {
+            const timer = setTimeout(() => {
+                reject(new Error('渲染超时'));
+            }, timeout);
+            
+            figlet.text(text, options, (err, data) => {
+                clearTimeout(timer);
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
+    };
+    
+    try {
+        const data = await renderWithTimeout(text, { font: font });
+        
+        if (!data || data.trim() === "") {
+            textAsciiPre.innerText = "⚠️ 生成的结果为空\n\n建议:\n• 尝试更换其他字体\n• 仅使用英文字母和数字\n• 检查输入内容是否包含特殊字符";
             lastTextAscii = "";
             return;
         }
+        
         textAsciiPre.innerText = data;
         lastTextAscii = data;
-    });
+    } catch (err) {
+        console.error('Figlet 错误:', err);
+        
+        let errorMsg = `❌ 字体转换失败
+
+错误: ${err.message || err}
+
+建议:`;
+        
+        if (err.message && err.message.includes('超时')) {
+            errorMsg += `\n• ⏱️ 渲染超时，请简化输入文字\n• 🔄 点击按钮重试`;
+        } else if (err.message && (err.message.includes('Network') || err.message.includes('network'))) {
+            errorMsg += `\n• 🌐 网络请求失败（字体文件需要从CDN加载）\n• 🔄 点击按钮重试\n• 📡 检查网络连接或代理设置`;
+            // 重置加载状态，下次会重新尝试
+            fontsLoaded = false;
+            fontLoadPromise = null;
+            loadAttempts = 0;
+        } else {
+            errorMsg += `\n• 🔤 尝试更换其他字体风格\n• ✏️ 仅使用英文字母和数字(A-Z, 0-9)\n• 🔄 点击按钮重试`;
+        }
+        
+        textAsciiPre.innerText = errorMsg;
+        lastTextAscii = "";
+    }
 }
 
 convertTextBtn.addEventListener('click', generateTextArt);
@@ -328,13 +551,13 @@ loadDemoImage();
 // 同步宽度值初始显示
 widthValSpan.innerText = asciiWidthSlider.value;
 
-// 文本模式初次默认预生成一次示例
-setTimeout(() => {
+// 文本模式初次默认预生成一次示例（等待字体加载完成后）
+setTimeout(async () => {
     if (inputTextArea.value.trim() !== "") {
-        generateTextArt();
+        await generateTextArt();
     } else {
         // 设置默认示例
         inputTextArea.value = "ASCII ART";
-        generateTextArt();
+        await generateTextArt();
     }
-}, 300);
+}, 500);

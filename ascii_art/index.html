@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ASCII艺术工坊 | 图片/文字转字符画</title>
-    <!-- 引入 Figlet.js 用于文本转ASCII艺术字 (轻量级库) -->
-    <script src="https://cdn.jsdelivr.net/npm/figlet@1.5.2/lib/figlet.min.js"></script>
+    <!-- 引入 Figlet.js 用于文本转ASCII艺术字 (本地文件) -->
+    <script src="js/figlet.min.js"></script>
     <!-- 引入自定义脚本 -->
     <script src="js/script.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
@@ -13,6 +13,14 @@
 <body>
 
 <div class="container">
+    <!-- 返回首页按钮 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <a href="../index.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+            <span>🏠</span>
+            <span>返回首页</span>
+        </a>
+    </div>
+
     <div class="hero">
         <h1>◢ ASCII 艺术工坊 ◣</h1>
         <p>图像像素转字符画 · 文字幻化成酷炫大字符</p>
@@ -85,15 +93,74 @@
                 <h3 style="margin-bottom: 1rem;">📝 输入文字</h3>
                 <textarea id="inputText" rows="3" placeholder="输入英文 / 数字 / 符号...&#10;例如: ASCII ART" style="resize: vertical;">ASCII ART</textarea>
                 <div class="control-group" style="margin-top: 1rem;">
-                    <label>🎨 艺术字体风格</label>
-                    <select id="figletFont">
-                        <option value="standard">Standard (标准)</option>
-                        <option value="slant">Slant (斜体)</option>
-                        <option value="bubble">Bubble (泡泡)</option>
-                        <option value="digital">Digital (数码)</option>
-                        <option value="block">Block (方块)</option>
-                        <option value="lean">Lean (倾斜)</option>
-                        <option value="mini">Mini (迷你)</option>
+                    <label>🎨 艺术字体风格（共 228+ 种）</label>
+                    <select id="figletFont" style="max-height: 300px;">
+                        <!-- 核心字体 -->
+                        <optgroup label="⭐ 核心字体 (Core)">
+                            <option value="standard">Standard - 标准</option>
+                            <option value="slant">Slant - 斜体</option>
+                            <option value="bubble">Bubble - 泡泡</option>
+                            <option value="digital">Digital - 数码</option>
+                            <option value="block">Block - 方块</option>
+                            <option value="lean">Lean - 倾斜</option>
+                            <option value="mini">Mini - 迷你</option>
+                            <option value="banner">Banner - 横幅</option>
+                            <option value="big">Big - 大号</option>
+                            <option value="script">Script - 手写</option>
+                            <option value="shadow">Shadow - 阴影</option>
+                            <option value="small">Small - 小号</option>
+                            <option value="term">Term - 终端</option>
+                            <option value="ivrit">Ivrit - 希伯来</option>
+                            <option value="smscript">SMScript - 小写手写</option>
+                            <option value="smshadow">SMShadow - 小写阴影</option>
+                            <option value="smslant">SMSlant - 小写斜体</option>
+                        </optgroup>
+                        <!-- 精选贡献字体 -->
+                        <optgroup label="🌟 精选字体 (Contributed)">
+                            <option value="alligator">Alligator - 鳄鱼</option>
+                            <option value="alpha">Alpha - 阿尔法</option>
+                            <option value="arrows">Arrows - 箭头</option>
+                            <option value="broadway">Broadway - 百老汇</option>
+                            <option value="bulbhead">Bulbhead - 灯泡头</option>
+                            <option value="caligraphy">Caligraphy - 书法</option>
+                            <option value="chunky">Chunky - 粗体</option>
+                            <option value="colossal">Colossal - 巨大</option>
+                            <option value="crazy">Crazy - 疯狂</option>
+                            <option value="dancingfont">DancingFont - 舞蹈</option>
+                            <option value="defleppard">DefLeppard - 摇滚</option>
+                            <option value="diamond">Diamond - 钻石</option>
+                            <option value="doom">Doom - 毁灭战士</option>
+                            <option value="dotmatrix">DotMatrix - 点阵</option>
+                            <option value="epic">Epic - 史诗</option>
+                            <option value="ghost">Ghost - 幽灵</option>
+                            <option value="gothic">Gothic - 哥特</option>
+                            <option value="graffiti">Graffiti - 涂鸦</option>
+                            <option value="hollywood">Hollywood - 好莱坞</option>
+                            <option value="isometric1">Isometric1 - 等距1</option>
+                            <option value="isometric2">Isometric2 - 等距2</option>
+                            <option value="isometric3">Isometric3 - 等距3</option>
+                            <option value="isometric4">Isometric4 - 等距4</option>
+                            <option value="larry3d">Larry3D - 3D拉里</option>
+                            <option value="lcd">LCD - 液晶</option>
+                            <option value="nancyj">NancyJ - 南希</option>
+                            <option value="ogre">Ogre - 食人魔</option>
+                            <option value="poison">Poison - 毒药</option>
+                            <option value="puffy">Puffy - 蓬松</option>
+                            <option value="rectangles">Rectangles - 矩形</option>
+                            <option value="roman">Roman - 罗马</option>
+                            <option value="starwars">StarWars - 星球大战</option>
+                            <option value="stellar">Stellar - 星际</option>
+                            <option value="three_d">ThreeD - 三维</option>
+                            <option value="univers">Univers - 通用</option>
+                            <option value="usaflag">USAFlag - 美国国旗</option>
+                        </optgroup>
+                        <!-- 国际字体 -->
+                        <optgroup label="🌍 国际字体 (International)">
+                            <option value="katakana">Katakana - 片假名</option>
+                            <option value="morse">Morse - 摩尔斯电码</option>
+                            <option value="runic">Runic - 卢恩文字</option>
+                            <option value="tengwar">Tengwar - 精灵文字</option>
+                        </optgroup>
                     </select>
                 </div>
                 <div class="flex-btns">
