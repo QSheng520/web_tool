@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="baidu_union_verify" content="e7fadfc75bd903dfa86b9df560e33528">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线工具箱 - 实用工具集合</title>
+    <style>
+        /* 基础重置与排版 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航 */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 2rem 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header h1 { 
+            font-size: 2.2rem; 
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        header p { 
+            font-size: 1rem; 
+            color: #666;
+        }
+
+        /* 主体内容 */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* 分类区块 */
+        .category-section {
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-title {
+            color: white;
+            font-size: 1.6rem;
+            margin-bottom: 1.2rem;
+            padding-left: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .category-icon {
+            font-size: 1.8rem;
+        }
+
+        /* 工具卡片网格 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        /* 工具按钮卡片 */
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .tool-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .tool-desc {
+            font-size: 0.9rem;
+            color: #718096;
+            line-height: 1.5;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: auto;
+            align-self: flex-start;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1rem;
+            }
+
+            .category-title {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🛠️ 在线工具箱</h1>
+        <p>精选实用工具，提升工作效率</p>
+    </header>
+
+    <!-- 饺子与肉包 -->
+    <main style="max-width: 800px; margin-bottom: 1rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 2rem;">
+            <div class="tool-card" style="cursor: default;">
+                <div class="tool-icon">🥟</div>
+                <div class="tool-name">饺子</div>
+                <div class="tool-desc">是我领养的一只宠物猫，名字叫"饺子"。</div>
+            </div>
+
+            <div class="tool-card" style="cursor: default;">
+                <div class="tool-icon">🥯</div>
+                <div class="tool-name">肉包</div>
+                <div class="tool-desc">是我领养的一只宠物狗，名字叫"肉包"。</div>
+            </div>
+        </div>
+    </main>
+
+    <main>
+        <!-- 金融计算分类 -->
+        <section class="category-section">
+            <h2 class="category-title">
+                <span class="category-icon">💰</span>
+                金融计算
+            </h2>
+            <div class="tools-grid">
+                <a href="./fangdai/index.html" class="tool-card">
+                    <div class="tool-icon">🏠</div>
+                    <div class="tool-name">房贷计算器</div>
+                    <div class="tool-desc">支持商业贷款、公积金贷款、组合贷款，提供等额本息和等额本金两种还款方式计算</div>
+                    <span class="tool-badge">热门工具</span>
+                </a>
+
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">🚗</div>
+                    <div class="tool-name">车贷计算器</div>
+                    <div class="tool-desc">快速计算汽车贷款月供，支持多种贷款方案对比</div>
+                    <span class="tool-badge">即将上线</span>
+                </a>
+
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">💳</div>
+                    <div class="tool-name">信用卡分期计算器</div>
+                    <div class="tool-desc">计算信用卡分期手续费和实际利率</div>
+                    <span class="tool-badge">开发中</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 生活工具分类 -->
+        <section class="category-section">
+            <h2 class="category-title">
+                <span class="category-icon">🌟</span>
+                生活工具
+            </h2>
+            <div class="tools-grid">
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">⚖️</div>
+                    <div class="tool-name">BMI计算器</div>
+                    <div class="tool-desc">计算身体质量指数，评估健康状况</div>
+                    <span class="tool-badge">即将上线</span>
+                </a>
+
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">📅</div>
+                    <div class="tool-name">日期计算器</div>
+                    <div class="tool-desc">计算两个日期之间的天数，或推算指定天数后的日期</div>
+                    <span class="tool-badge">开发中</span>
+                </a>
+
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">🔢</div>
+                    <div class="tool-name">单位转换器</div>
+                    <div class="tool-desc">长度、重量、温度等多种单位快速转换</div>
+                    <span class="tool-badge">规划中</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 办公工具分类 -->
+        <section class="category-section">
+            <h2 class="category-title">
+                <span class="category-icon">💼</span>
+                办公工具
+            </h2>
+            <div class="tools-grid">
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">📝</div>
+                    <div class="tool-name">Markdown编辑器</div>
+                    <div class="tool-desc">在线编辑和预览Markdown文档</div>
+                    <span class="tool-badge">规划中</span>
+                </a>
+
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">🔐</div>
+                    <div class="tool-name">密码生成器</div>
+                    <div class="tool-desc">生成安全可靠的随机密码</div>
+                    <span class="tool-badge">规划中</span>
+                </a>
+
+                <a href="#" class="tool-card">
+                    <div class="tool-icon">📊</div>
+                    <div class="tool-name">个人所得税计算器</div>
+                    <div class="tool-desc">计算个人所得税和税后收入</div>
+                    <span class="tool-badge">即将上线</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> 在线工具箱 · 让工作更高效</p>
+        <p><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备17122668号-1</a></p>
+    </footer>
+
+    <script>
+        // 自动更新年份
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
