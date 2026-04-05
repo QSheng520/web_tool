@@ -20,15 +20,15 @@ var businessShortRateArr6 = [5.1, 5.35, 5.6, 5.85, 6.1, 5.85, 5.6, 5.6, 5.35, 5.
 $(function() {
     $("#business_calc").on("click", function() {
         0 <= $(this).attr("class").indexOf("normal-tab") && ($(this).removeClass("normal-tab").addClass("select-tab").siblings(".tab").removeClass("select-tab").addClass("normal-tab"), $("#business_sum_line").show(), $("#business_rate_select_line").show(), $("#business_rate_value_line").show(), $("#PAF_sum_line").hide(), $("#PAF_rate_line").hide(), $("#business_interest_total_debx").hide(), $("#PAF_interest_total_debx").hide(), $("#business_interest_total_debj").hide(),
-            $("#PAF_interest_total_debj").hide(), $("#business_atc_recmd_mod").show(), $("#PAF_atc_recmd_mod").hide(), loanType = 0)
+            $("#PAF_interest_total_debj").hide(), $("#business_atc_recmd_mod").show(), $("#PAF_atc_recmd_mod").hide(), $(".mix-loan-tabs").hide(), loanType = 0)
     });
     $("#PAF_calc").on("click", function() {
         0 <= $(this).attr("class").indexOf("normal-tab") && ($(this).removeClass("normal-tab").addClass("select-tab").siblings(".tab").removeClass("select-tab").addClass("normal-tab"), $("#PAF_sum_line").show(), $("#PAF_rate_line").show(), $("#business_sum_line").hide(), $("#business_rate_select_line").hide(), $("#business_rate_value_line").hide(), $("#business_interest_total_debx").hide(),
-            $("#PAF_interest_total_debx").hide(), $("#business_interest_total_debj").hide(), $("#PAF_interest_total_debj").hide(), $("#PAF_atc_recmd_mod").show(), $("#business_atc_recmd_mod").hide(), loanType = 1)
+            $("#PAF_interest_total_debx").hide(), $("#business_interest_total_debj").hide(), $("#PAF_interest_total_debj").hide(), $("#PAF_atc_recmd_mod").show(), $("#business_atc_recmd_mod").hide(), $(".mix-loan-tabs").hide(), loanType = 1)
     });
     $("#mix_calc").on("click", function() {
         0 <= $(this).attr("class").indexOf("normal-tab") && ($(this).removeClass("normal-tab").addClass("select-tab").siblings(".tab").removeClass("select-tab").addClass("normal-tab"), $("#business_sum_line").show(), $("#business_rate_select_line").show(), $("#business_rate_value_line").show(),
-            $("#PAF_sum_line").show(), $("#PAF_rate_line").show(), $("#business_interest_total_debx").show(), $("#PAF_interest_total_debx").show(), $("#business_interest_total_debj").show(), $("#PAF_interest_total_debj").show(), $("#business_atc_recmd_mod").show(), $("#PAF_atc_recmd_mod").hide(), loanType = 2)
+            $("#PAF_sum_line").show(), $("#PAF_rate_line").show(), $("#business_interest_total_debx").show(), $("#PAF_interest_total_debx").show(), $("#business_interest_total_debj").show(), $("#PAF_interest_total_debj").show(), $("#business_atc_recmd_mod").show(), $("#PAF_atc_recmd_mod").hide(), $(".mix-loan-tabs").show(), loanType = 2)
     });
     $(".result-tab").on("click", function() {
         if (0 <= $(this).attr("class").indexOf("normal-tab")) {
@@ -94,6 +94,19 @@ $(function() {
         $("#data_detail_bar").hide();
         $("[view=data_detail]").hide();
         $("[view=calc_result]").show()
+    });
+    // 组合贷明细切换
+    $(".mix-loan-tabs .tab").on("click", function() {
+        var tabsContainer = $(this).closest(".mix-loan-tabs");
+        var view = $(this).attr("data-view");
+        var container = tabsContainer.closest(".data-container");
+            
+        // 切换标签样式
+        $(this).removeClass("normal-tab").addClass("select-tab").siblings(".tab").removeClass("select-tab").addClass("normal-tab");
+            
+        // 切换显示内容
+        container.find(".mix-loan-view").hide();
+        container.find("#mix_view_" + view + "_" + (tabsContainer.attr("id").split("_")[3])).show();
     });
     $('[ad-type="cpa"]').on("click", function() {
         window.location.href = $(this).attr("ad-url")
@@ -244,12 +257,70 @@ function calculate_debx_doubleLoan(a, b, d, f) {
     g = e / loanPeriods;
     g = Math.round(100 *
         g) / 100;
+    
+    // 计算商贷和公积金各自的月供
+    var businessMonthlyPayment = a * b * Math.pow(1 + b, loanPeriods) / (Math.pow(1 + b, loanPeriods) - 1);
+    businessMonthlyPayment = Math.round(100 * businessMonthlyPayment) / 100;
+    var PAFMonthlyPayment = d * f * Math.pow(1 + f, loanPeriods) / (Math.pow(1 + f, loanPeriods) - 1);
+    PAFMonthlyPayment = Math.round(100 * PAFMonthlyPayment) / 100;
+    
     var i = 0,
         k = "",
-        l = "";
-    for (c = 1; c <= loanPeriods; c++) e = a * b * (Math.pow(1 + b, loanPeriods) - Math.pow(1 + b, c - 1)) / (Math.pow(1 + b, loanPeriods) - 1), e += d * f * (Math.pow(1 + f, loanPeriods) - Math.pow(1 + f, c - 1)) / (Math.pow(1 + f, loanPeriods) - 1), e = Math.round(100 * e) / 100, j = g - e, j = Math.round(100 * j) / 100, m = a * (Math.pow(1 + b, loanPeriods) - Math.pow(1 + b, c)) / (Math.pow(1 + b, loanPeriods) - 1), m += d * (Math.pow(1 + f, loanPeriods) - Math.pow(1 + f, c)) / (Math.pow(1 + f, loanPeriods) - 1), m = Math.round(100 * m) / 100, k += "<tr>", k = k + "<td>" + c + "</td>", k = k + "<td>" + g + "</td>",
-        k = k + "<td>" + e + "</td>", k = k + "<td>" + j + "</td>", k = k + "<td>" + m + "</td>", k += "</tr>", 1 == c && (i = e), c == simpleDataTableMaxLines && (l = k);
+        l = "",
+        businessTable = "",
+        pafTable = "";
+    for (c = 1; c <= loanPeriods; c++) {
+        // 商贷部分
+        var businessInterest = a * b * (Math.pow(1 + b, loanPeriods) - Math.pow(1 + b, c - 1)) / (Math.pow(1 + b, loanPeriods) - 1);
+        businessInterest = Math.round(100 * businessInterest) / 100;
+        var businessPrincipal = businessMonthlyPayment - businessInterest;
+        businessPrincipal = Math.round(100 * businessPrincipal) / 100;
+        
+        // 公积金部分
+        var PAFInterest = d * f * (Math.pow(1 + f, loanPeriods) - Math.pow(1 + f, c - 1)) / (Math.pow(1 + f, loanPeriods) - 1);
+        PAFInterest = Math.round(100 * PAFInterest) / 100;
+        var PAFPrincipal = PAFMonthlyPayment - PAFInterest;
+        PAFPrincipal = Math.round(100 * PAFPrincipal) / 100;
+        
+        // 总计
+        e = businessInterest + PAFInterest;
+        e = Math.round(100 * e) / 100;
+        j = g - e;
+        j = Math.round(100 * j) / 100;
+        m = a * (Math.pow(1 + b, loanPeriods) - Math.pow(1 + b, c)) / (Math.pow(1 + b, loanPeriods) - 1);
+        m += d * (Math.pow(1 + f, loanPeriods) - Math.pow(1 + f, c)) / (Math.pow(1 + f, loanPeriods) - 1);
+        m = Math.round(100 * m) / 100;
+        
+        // 总计表格
+        k += "<tr>";
+        k = k + "<td>" + c + "</td>";
+        k = k + "<td>" + g + "</td>";
+        k = k + "<td>" + e + "</td>";
+        k = k + "<td>" + j + "</td>";
+        k = k + "<td>" + m + "</td>";
+        k += "</tr>";
+        
+        // 商贷表格
+        businessTable += "<tr>";
+        businessTable = businessTable + "<td>" + c + "</td>";
+        businessTable = businessTable + "<td>" + businessMonthlyPayment + "</td>";
+        businessTable = businessTable + "<td>" + businessInterest + "</td>";
+        businessTable = businessTable + "<td>" + businessPrincipal + "</td>";
+        businessTable += "</tr>";
+        
+        // 公积金表格
+        pafTable += "<tr>";
+        pafTable = pafTable + "<td>" + c + "</td>";
+        pafTable = pafTable + "<td>" + PAFMonthlyPayment + "</td>";
+        pafTable = pafTable + "<td>" + PAFInterest + "</td>";
+        pafTable = pafTable + "<td>" + PAFPrincipal + "</td>";
+        pafTable += "</tr>";
+        
+        1 == c && (i = e), c == simpleDataTableMaxLines && (l = k);
+    }
     $("#standard_data_table_1").html("" + k);
+    $("#business_data_table_1").html("" + businessTable);
+    $("#paf_data_table_1").html("" + pafTable);
     "" == l && (l = k);
     $("#simple_data_table_1").html("" + l);
     $("#repay_monthly_1").text(g + "元");
@@ -307,15 +378,75 @@ function calculate_debj_doubleLoan(a, b, d, f) {
     $("#PAF_interest_total_2").text(g + "元");
     $("#interest_total_2").text(h + "元");
     $("#repay_total_2").text(e + "元");
+    
+    // 计算商贷和公积金各自的每月本金
+    var businessMonthlyPrincipal = a / loanPeriods;
+    businessMonthlyPrincipal = Math.round(100 * businessMonthlyPrincipal) / 100;
+    var PAFMonthlyPrincipal = d / loanPeriods;
+    PAFMonthlyPrincipal = Math.round(100 * PAFMonthlyPrincipal) / 100;
+    var totalMonthlyPrincipal = businessMonthlyPrincipal + PAFMonthlyPrincipal;
+    totalMonthlyPrincipal = Math.round(100 * totalMonthlyPrincipal) / 100;
+    
     j = (a + d) / loanPeriods;
     j = Math.round(100 * j) / 100;
     var i = 0,
         k = 0,
         l = "",
-        n = "";
-    for (c = 1; c <= loanPeriods; c++) e = a * b * (loanPeriods - c + 1) / loanPeriods,
-        e += d * f * (loanPeriods - c + 1) / loanPeriods, e = Math.round(100 * e) / 100, g = e + j, g = Math.round(100 * g) / 100, m = a * (loanPeriods - c) / loanPeriods, m += d * (loanPeriods - c) / loanPeriods, m = Math.round(100 * m) / 100, l += "<tr>", l = l + "<td>" + c + "</td>", l = l + "<td>" + g + "</td>", l = l + "<td>" + e + "</td>", l = l + "<td>" + j + "</td>", l = l + "<td>" + m + "</td>", l += "</tr>", 1 == c && (i = g, k = e), c == simpleDataTableMaxLines && (n = l);
+        n = "",
+        businessTable = "",
+        pafTable = "";
+    for (c = 1; c <= loanPeriods; c++) {
+        // 商贷部分
+        var businessInterest = a * b * (loanPeriods - c + 1) / loanPeriods;
+        businessInterest = Math.round(100 * businessInterest) / 100;
+        var businessMonthlyPayment = businessInterest + businessMonthlyPrincipal;
+        businessMonthlyPayment = Math.round(100 * businessMonthlyPayment) / 100;
+        
+        // 公积金部分
+        var PAFInterest = d * f * (loanPeriods - c + 1) / loanPeriods;
+        PAFInterest = Math.round(100 * PAFInterest) / 100;
+        var PAFMonthlyPayment = PAFInterest + PAFMonthlyPrincipal;
+        PAFMonthlyPayment = Math.round(100 * PAFMonthlyPayment) / 100;
+        
+        // 总计
+        e = businessInterest + PAFInterest;
+        e = Math.round(100 * e) / 100;
+        g = e + j;
+        g = Math.round(100 * g) / 100;
+        m = a * (loanPeriods - c) / loanPeriods;
+        m += d * (loanPeriods - c) / loanPeriods;
+        m = Math.round(100 * m) / 100;
+        
+        // 总计表格
+        l += "<tr>";
+        l = l + "<td>" + c + "</td>";
+        l = l + "<td>" + g + "</td>";
+        l = l + "<td>" + e + "</td>";
+        l = l + "<td>" + j + "</td>";
+        l = l + "<td>" + m + "</td>";
+        l += "</tr>";
+        
+        // 商贷表格
+        businessTable += "<tr>";
+        businessTable = businessTable + "<td>" + c + "</td>";
+        businessTable = businessTable + "<td>" + businessMonthlyPayment + "</td>";
+        businessTable = businessTable + "<td>" + businessInterest + "</td>";
+        businessTable = businessTable + "<td>" + businessMonthlyPrincipal + "</td>";
+        businessTable += "</tr>";
+        
+        // 公积金表格
+        pafTable += "<tr>";
+        pafTable = pafTable + "<td>" + c + "</td>";
+        pafTable = pafTable + "<td>" + PAFMonthlyPayment + "</td>";
+        pafTable = pafTable + "<td>" + PAFInterest + "</td>";
+        pafTable = pafTable + "<td>" + PAFMonthlyPrincipal + "</td>";
+        pafTable += "</tr>";
+        
+        1 == c && (i = g, k = e), c == simpleDataTableMaxLines && (n = l);
+    }
     $("#standard_data_table_2").html("" + l);
+    $("#business_data_table_2").html("" + businessTable);
+    $("#paf_data_table_2").html("" + pafTable);
     "" == n && (n = l);
     $("#simple_data_table_2").html("" + n);
     $("#repay_monthly_2").text(i + "元");
