@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+     <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PDF 全能工具箱 - 图片合并PDF | PDF合并 | PDF拆分</title>
+    <!-- PDF-Lib 核心库 (客户端PDF处理) -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- JSZip 用于打包拆分后的多个PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- FileSaver.js 辅助保存zip (可选，但为了兼容性，使用原生下载亦可) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- PDF-Lib 核心库 (客户端PDF处理) -->
+</head>
+<body>
+<div class="main-container">
+    <div class="header">
+        <a href="../index.html" class="back-home-btn">🏠 返回首页</a>
+        <h1>📄 PDF 工作站</h1>
+        <p>图片合成PDF · 多PDF合并 · 智能拆分PDF | 纯本地处理 · 安全无上传</p>
+    </div>
+    <div class="tools-grid">
+
+        <!-- 1. 图片合并PDF -->
+        <div class="card">
+            <div class="card-header">
+                <h2>🖼️ 图片 → PDF</h2>
+            </div>
+            <div class="card-body">
+                <div id="imgUploadZone" class="upload-zone">
+                    <div class="upload-icon">📸⬆️</div>
+                    <p>点击或拖拽上传图片 (JPG/PNG)</p>
+                    <div class="upload-sub">支持多张，可排序删除</div>
+                    <input type="file" id="imgFileInput" multiple accept="image/jpeg,image/png,image/jpg" style="display:none">
+                </div>
+                <div id="imgFileListContainer" class="file-list">
+                    <div class="empty-list">暂无图片，上传后将显示在此处</div>
+                </div>
+                <button id="mergeImagesBtn" class="btn-primary">✨ 合并为 PDF 并下载</button>
+            </div>
+        </div>
+
+        <!-- 2. 多个PDF合并 -->
+        <div class="card">
+            <div class="card-header">
+                <h2>📚 PDF 合并</h2>
+            </div>
+            <div class="card-body">
+                <div id="pdfMergeZone" class="upload-zone">
+                    <div class="upload-icon">📑➕</div>
+                    <p>点击或拖拽上传 PDF 文件</p>
+                    <div class="upload-sub">支持多个PDF，按列表顺序合并</div>
+                    <input type="file" id="pdfMergeInput" multiple accept="application/pdf" style="display:none">
+                </div>
+                <div id="pdfMergeListContainer" class="file-list">
+                    <div class="empty-list">未上传PDF，点击上方区域添加</div>
+                </div>
+                <button id="mergePdfsBtn" class="btn-primary">🔗 合并所有PDF并下载</button>
+            </div>
+        </div>
+
+        <!-- 3. PDF拆分 (上传单个PDF) -->
+        <div class="card">
+            <div class="card-header">
+                <h2>✂️ PDF 拆分</h2>
+            </div>
+            <div class="card-body">
+                <div id="splitZone" class="upload-zone">
+                    <div class="upload-icon">📂➗</div>
+                    <p>点击或拖拽上传单个 PDF</p>
+                    <div class="upload-sub">仅支持一个PDF文档进行拆分</div>
+                    <input type="file" id="splitFileInput" accept="application/pdf" style="display:none">
+                </div>
+                <div id="splitInfoArea" class="file-list" style="max-height:120px">
+                    <div class="empty-list">未上传PDF文件</div>
+                </div>
+                <div class="split-options">
+                    <div class="split-option-item">
+                        <label>拆分模式:</label>
+                        <select id="splitModeSelect">
+                            <option value="range">📌 自定义页码范围 (例: 1-3,4,5-7)</option>
+                            <option value="single">📄 每页单独PDF</option>
+                        </select>
+                    </div>
+                    <div id="rangeOptionArea" class="split-option-item">
+                        <label>页码范围:</label>
+                        <input type="text" id="pageRangesInput" class="range-input" placeholder="例如: 1-3,4,5-6 或 1,2,3" value="1-1">
+                        <span class="info-badge">基于1开始</span>
+                    </div>
+                    <div id="perPageNote" style="font-size:0.7rem; color:#4f7e9a; margin-top:6px; display:none;">每页单独生成一个PDF文件，最后打包下载。</div>
+                </div>
+                <button id="splitPdfBtn" class="btn-primary">✂️ 拆分并打包下载 (ZIP)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="loadingToast" class="loading-toast">⏳ 处理中，请稍候...</div>
+
+<script src="script.js"></script>
+</body>
+</html>
