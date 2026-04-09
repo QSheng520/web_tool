@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060c);
+    font-family: 'Segoe UI', 'Roboto', 'Noto Sans CJK SC', 'Microsoft YaHei', monospace;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    color: #eef5ff;
+}
+
+/* 主容器 */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* 警徽风格头部 */
+.badge-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+.badge-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 6px #00a6ff);
+    letter-spacing: 8px;
+}
+h1 {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #e0eefc, #7ab3ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.sub {
+    color: #7f8fa4;
+    border-top: 1px solid #2a3455;
+    display: inline-block;
+    padding-top: 0.5rem;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-family: monospace;
+}
+.badge-header::after {
+    content: "⚡ 绝密 · 卧底信道 ⚡";
+    position: absolute;
+    bottom: -1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    background: #0f1422cc;
+    backdrop-filter: blur(4px);
+    padding: 0.2rem 1rem;
+    border-radius: 40px;
+    color: #b9d0ff;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* 双卡布局 */
+.cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* 公用卡片样式 */
+.card {
+    background: rgba(12, 20, 30, 0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 2rem;
+    border: 1px solid rgba(72, 120, 184, 0.4);
+    box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+    padding: 1.6rem 1.8rem;
+    transition: all 0.2s ease;
+}
+.card:hover {
+    border-color: #2f6eb3;
+    box-shadow: 0 22px 38px -14px #001d3d;
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #2f7bc0;
+    padding-left: 1rem;
+}
+.card-header h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+.badge-role {
+    background: #0e2a3b;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 30px;
+    color: #8fcbff;
+}
+
+/* 输入输出区域 */
+.input-group, .output-group {
+    margin-bottom: 1.5rem;
+}
+label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: #9bb5e0;
+    margin-bottom: 0.5rem;
+}
+textarea, .result-area {
+    width: 100%;
+    background: #050a12;
+    border: 1px solid #2a3b55;
+    border-radius: 1.2rem;
+    padding: 1rem 1.2rem;
+    font-family: 'SF Mono', 'Fira Code', 'Noto Sans CJK SC', monospace;
+    font-size: 1rem;
+    color: #d6e6ff;
+    resize: vertical;
+    transition: 0.2s;
+}
+textarea:focus {
+    outline: none;
+    border-color: #3e8ed0;
+    box-shadow: 0 0 0 3px rgba(62, 142, 208, 0.3);
+    background: #0a111f;
+}
+.result-area {
+    background: #07111e;
+    min-height: 100px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-weight: 400;
+    border: 1px solid #2b4970;
+    cursor: text;
+}
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 1rem 0 0.5rem;
+}
+button {
+    background: #132433;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    font-family: inherit;
+    color: #cae3ff;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #2e5177;
+}
+button.primary {
+    background: #1f6392;
+    border-color: #4c9eff;
+    color: white;
+    box-shadow: 0 2px 5px #00000033;
+}
+button.primary:hover {
+    background: #2b7bb3;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px -6px #0a2a44;
+}
+button:hover {
+    background: #1e3a5a;
+    border-color: #618cbb;
+}
+.copy-btn {
+    background: #1a2a3c;
+    font-size: 0.75rem;
+}
+.fill-btn {
+    background: #152836;
+    border-color: #3b6290;
+}
+
+hr {
+    margin: 1rem 0;
+    border-color: #253c58;
+}
+
+.tips {
+    font-size: 0.7rem;
+    text-align: center;
+    color: #5e7a9a;
+    margin-top: 2rem;
+    border-top: 1px dashed #1f3450;
+    padding-top: 1.2rem;
+}
+
+/* 响应式 */
+@media (max-width: 860px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+    body {
+        padding: 1.2rem;
+    }
+    .card {
+        padding: 1.2rem;
+    }
+}
+
+.error-msg {
+    color: #ffac9f;
+    background: #3a1e1e80;
+    border-radius: 40px;
+    padding: 0.3rem 1rem;
+    font-size: 0.75rem;
+    margin-top: 0.6rem;
+    display: inline-block;
+}
+.flex-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.small-note {
+    font-size: 0.7rem;
+    color: #6a85b0;
+}

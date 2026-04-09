@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>卧底密信 · 警察加密通讯工具</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="badge-header">
+        <div class="badge-icon">🕵️‍♂️🔫🐉</div>
+        <h1>卧底密信 · 暗语生成器</h1>
+        <div class="sub">「 警察专用 · 隐写信道 · 中文密文 」</div>
+    </div>
+
+    <div class="cards-grid">
+        <!-- 加密区：明文 -> 密文 -->
+        <div class="card">
+            <div class="card-header">
+                <h2>📜 加密 · 伪装情报</h2>
+                <span class="badge-role">卧底发报</span>
+            </div>
+            <div class="input-group">
+                <label>✍️ 原始情报 (明文)</label>
+                <textarea id="plainInput" rows="3" placeholder="输入需要加密的文本，支持中文、英文、数字、符号甚至emoji&#10;例如：今晚码头交易，代号夜莺，请求支援。"></textarea>
+            </div>
+            <div class="button-group">
+                <button id="encryptBtn" class="primary">🔒 加密 → 中文密文</button>
+                <button id="clearPlainBtn" class="copy-btn">🗑️ 清空</button>
+                <button id="examplePlainBtn" class="fill-btn">📎 卧底范例</button>
+            </div>
+            <div class="output-group">
+                <label>🔐 加密结果 (中文暗号)</label>
+                <div class="result-area" id="encryptedResult">—— 等待加密 ——</div>
+                <div class="button-group" style="margin-top: 0.8rem;">
+                    <button id="copyEncryptBtn" class="copy-btn">📋 复制密文</button>
+                    <button id="fillToDecryptBtn" class="fill-btn">🔁 填入解密区</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 解密区：密文 -> 明文 -->
+        <div class="card">
+            <div class="card-header">
+                <h2>🔎 解密 · 破译暗语</h2>
+                <span class="badge-role">警局解码</span>
+            </div>
+            <div class="input-group">
+                <label>🕯️ 截获密文 (中文)</label>
+                <textarea id="cipherInput" rows="3" placeholder="将收到的中文密文粘贴在此处&#10;例如由加密工具生成的一串汉字"></textarea>
+            </div>
+            <div class="button-group">
+                <button id="decryptBtn" class="primary">🔓 解密 → 原始情报</button>
+                <button id="clearCipherBtn" class="copy-btn">🗑️ 清空</button>
+                <button id="exampleCipherBtn" class="fill-btn">📎 密文示例</button>
+            </div>
+            <div class="output-group">
+                <label>📡 解密还原明文</label>
+                <div class="result-area" id="decryptedResult">—— 等待解密 ——</div>
+                <div class="button-group" style="margin-top: 0.8rem;">
+                    <button id="copyDecryptBtn" class="copy-btn">📋 复制明文</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tips">
+        ⚙️ 加密原理：将文本转为 Base64 后，映射为65个专用汉字（仿古密本）。<br>
+        💡 只有本工具可还原，密文全部由中文组成，适合卧底角色扮演传递“日常话术”。<br>
+        🕶️ 支持任何字符，解密时自动过滤空格/换行，完美可逆。
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
