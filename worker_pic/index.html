@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证件照P图网站</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部标题栏 -->
+        <header class="header">
+            <h1>📸 证件照P图神器</h1>
+            <p class="subtitle">上传照片，即可更换衣服、调整尺寸、美化图片</p>
+        </header>
+
+        <!-- 左侧工具栏 -->
+        <aside class="sidebar-left">
+            <!-- 尺寸选择 -->
+            <section class="tool-section">
+                <h3>📐 证件照尺寸</h3>
+                <div class="size-options">
+                    <button class="size-btn active" data-width="295" data-height="413">一寸<br><span>25×35mm</span></button>
+                    <button class="size-btn" data-width="413" data-height="579">二寸<br><span>35×49mm</span></button>
+                    <button class="size-btn" data-width="413" data-height="531">小二寸<br><span>35×45mm</span></button>
+                    <button class="size-btn" data-width="390" data-height="567">护照照<br><span>33×48mm</span></button>
+                    <button class="size-btn" data-width="358" data-height="441">身份证<br><span>26×32mm</span></button>
+                </div>
+            </section>
+
+            <!-- 衣服选择 -->
+            <section class="tool-section">
+                <h3>👔 衣服素材</h3>
+                <div class="clothes-grid" id="clothesGrid">
+                    <!-- 衣服选项将通过JS动态生成 -->
+                </div>
+            </section>
+
+            <!-- 手动调整 -->
+            <section class="tool-section">
+                <h3>🎛️ 位置调整</h3>
+                <div class="slider-group">
+                    <label>
+                        <span>人物大小</span>
+                        <input type="range" id="photoScale" min="30" max="150" value="100">
+                        <span class="slider-value" id="photoScaleValue">100%</span>
+                    </label>
+                    <label>
+                        <span>人物上下</span>
+                        <input type="range" id="photoYOffset" min="-100" max="100" value="0">
+                        <span class="slider-value" id="photoYOffsetValue">0px</span>
+                    </label>
+                    <label>
+                        <span>衣服大小</span>
+                        <input type="range" id="clothesScale" min="50" max="150" value="100">
+                        <span class="slider-value" id="clothesScaleValue">100%</span>
+                    </label>
+                </div>
+            </section>
+        </aside>
+
+        <!-- 中央画布区域 -->
+        <main class="canvas-area">
+            <div class="canvas-wrapper" id="canvasWrapper">
+                <!-- 上传提示 -->
+                <div class="upload-hint" id="uploadHint">
+                    <div class="upload-icon">📷</div>
+                    <p>点击上传照片或拖拽到此处</p>
+                    <p class="upload-tip">支持 JPG、PNG 格式</p>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png" hidden>
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        选择图片
+                    </button>
+                </div>
+                
+                <!-- Canvas画布 -->
+                <div class="canvas-container" id="canvasContainer" style="display: none;">
+                    <canvas id="mainCanvas"></canvas>
+                    <!-- 衣服叠加层 -->
+                    <div id="clothesOverlay" class="clothes-overlay"></div>
+                </div>
+            </div>
+            
+            <!-- 缩放控制 -->
+            <div class="zoom-controls">
+                <button onclick="zoomCanvas(-0.1)" title="缩小">➖</button>
+                <span id="zoomLevel">100%</span>
+                <button onclick="zoomCanvas(0.1)" title="放大">➕</button>
+            </div>
+        </main>
+
+        <!-- 右侧工具栏 -->
+        <aside class="sidebar-right">
+            <!-- 美颜功能 -->
+            <section class="tool-section">
+                <h3>✨ 美颜功能</h3>
+                <div class="beauty-controls">
+                    <div class="beauty-item">
+                        <label>
+                            <span>💡 美颜</span>
+                            <input type="range" id="beautyLevel" min="0" max="100" value="0">
+                            <span class="slider-value" id="beautyLevelValue">0</span>
+                        </label>
+                    </div>
+                    <div class="beauty-item">
+                        <label>
+                            <span>🌟 美白</span>
+                            <input type="range" id="whitenLevel" min="0" max="100" value="0">
+                            <span class="slider-value" id="whitenLevelValue">0</span>
+                        </label>
+                    </div>
+                    <div class="beauty-item">
+                        <label>
+                            <span>😊 瘦脸</span>
+                            <input type="range" id="slimLevel" min="0" max="100" value="0">
+                            <span class="slider-value" id="slimLevelValue">0</span>
+                        </label>
+                    </div>
+                    <button class="reset-beauty-btn" onclick="resetBeauty()">重置美颜</button>
+                </div>
+            </section>
+
+            <!-- 背景色 -->
+            <section class="tool-section">
+                <h3>🎨 背景颜色</h3>
+                <div class="bg-colors">
+                    <button class="bg-color-btn active" data-color="#FFFFFF" style="background:#FFFFFF" title="白色"></button>
+                    <button class="bg-color-btn" data-color="#E8F4FD" style="background:#E8F4FD" title="浅蓝"></button>
+                    <button class="bg-color-btn" data-color="#F5F5F5" style="background:#F5F5F5" title="灰色"></button>
+                    <button class="bg-color-btn" data-color="#FEE2E2" style="background:#FEE2E2" title="红色"></button>
+                    <button class="bg-color-btn" data-color="#D1FAE5" style="background:#D1FAE5" title="绿色"></button>
+                    <button class="bg-color-btn" data-color="#FEF3C7" style="background:#FEF3C7" title="黄色"></button>
+                    <button class="bg-color-btn" data-color="#E9D5FF" style="background:#E9D5FF" title="紫色"></button>
+                    <button class="bg-color-btn" data-color="#FED7AA" style="background:#FED7AA" title="橙色"></button>
+                </div>
+            </section>
+
+            <!-- 导出功能 -->
+            <section class="tool-section export-section">
+                <h3>💾 导出图片</h3>
+                <div class="export-options">
+                    <button class="export-btn primary" onclick="exportImage('png')">
+                        <span>导出PNG</span>
+                        <small>透明背景</small>
+                    </button>
+                    <button class="export-btn secondary" onclick="exportImage('jpg')">
+                        <span>导出JPG</span>
+                        <small>标准格式</small>
+                    </button>
+                </div>
+                <p class="export-tip">导出的图片为原始尺寸，可直接打印</p>
+            </section>
+
+            <!-- 重置按钮 -->
+            <button class="reset-all-btn" onclick="resetAll()">🔄 重置所有设置</button>
+        </aside>
+    </div>
+
+    <!-- 隐藏的图片用于存储原图 -->
+    <img id="originalImage" style="display: none;">
+    
+    <script src="main.js"></script>
+</body>
+</html>
