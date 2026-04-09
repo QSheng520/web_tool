@@ -241,3 +241,34 @@ hr {
     font-size: 0.7rem;
     color: #6a85b0;
 }
+
+/* 返回首页按钮 */
+.btn-home {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #1f6392 0%, #2f7bc0 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+.btn-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+@media (max-width: 860px) {
+    .btn-home {
+        top: 10px;
+        left: 10px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
