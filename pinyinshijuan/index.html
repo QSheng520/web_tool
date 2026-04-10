@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="./config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>语文拼音标注试卷生成器 - 免费随机出题打印工具 | 在线工具集</title>
+    <meta name="description" content="免费在线语文拼音标注试卷生成工具，支持单字、双字词、成语、多音字随机出题，可自定义题数和年级，一键打印或导出PDF，适合小学生拼音练习。">
+    <meta name="keywords" content="拼音试卷,拼音标注,语文练习,拼音生成器,在线试卷,打印试卷,小学生拼音,拼音练习,随机出题,教育工具">
+    <meta name="author" content="在线工具集">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="语文拼音标注试卷生成器 - 免费在线工具">
+    <meta property="og:description" content="支持单字、词语、成语随机生成拼音试卷，可打印导出PDF">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="" id="ogUrl">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="" id="canonicalLink">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon.png">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json" id="structuredData">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "语文拼音标注试卷生成器",
+        "description": "免费在线生成语文拼音标注试卷，支持多种题型和年级筛选",
+        "url": "",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        }
+    }
+    </script>
+    
+    <!-- 动态设置域名 -->
+    <script>
+      const DOMAIN = SITE_CONFIG.domain;
+      document.addEventListener('DOMContentLoaded', function() {
+        // 设置 canonical
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.href = DOMAIN + '/pinyinshijuan/';
+        
+        // 设置 Open Graph
+        var ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.content = DOMAIN + '/pinyinshijuan/';
+        
+        // 设置结构化数据中的URL
+        var structuredData = document.getElementById('structuredData');
+        if (structuredData) {
+          var data = JSON.parse(structuredData.textContent);
+          data.url = DOMAIN + '/pinyinshijuan/';
+          structuredData.textContent = JSON.stringify(data, null, 4);
+        }
+      });
+    </script>
+    
+    <!-- 引入 pinyin-pro (轻量拼音库，用于生成标准带声调拼音) -->
+    <script src="https://unpkg.com/pinyin-pro@3.25.0/dist/index.js"></script>
+    <!-- 引入本地样式文件 -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-container">
+    <!-- 控制面板 — 打印时隐藏 -->
+    <div class="control-panel no-print">
+        <!-- 返回首页按钮 -->
+        <a href="../index.html" class="back-home-btn" title="返回首页"> 🏠首页</a>
+        
+        <div class="panel-title">
+            <span>📋 试卷配置 · 拼音标注</span>
+        </div>
+
+        <div class="filter-grid">
+            <div class="type-group">
+                <label class="type-checkbox"><input type="checkbox" id="typeSingle" checked> 单字</label>
+                <label class="type-checkbox"><input type="checkbox" id="typeDouble" checked> 双字词</label>
+                <label class="type-checkbox"><input type="checkbox" id="typeIdiom" checked> 成语</label>
+                <label class="type-checkbox"><input type="checkbox" id="typePoly" checked> 易错多音字</label>
+            </div>
+
+            <div class="num-control">
+                <label>📌 题数 (5~50)</label>
+                <input type="number" id="questionCount" min="5" max="50" value="15" step="1">
+            </div>
+
+            <select id="gradeSelect" class="grade-select">
+                <option value="all">全部年级</option>
+                <option value="1">一年级</option>
+                <option value="2">二年级</option>
+                <option value="3">三年级</option>
+                <option value="4">四年级+</option>
+            </select>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="generateBtn">✨ 生成试卷</button>
+            <button class="btn btn-outline" id="printPaperBtn">🖨️ 打印试卷</button>
+            <button class="btn btn-outline" id="printAnswerBtn">📄 打印答案</button>
+
+            <div class="answer-toggle">
+                <label for="showAnswerCheck">🔍 显示答案</label>
+                <input type="checkbox" id="showAnswerCheck">
+            </div>
+        </div>
+        <div id="messageArea" class="footnote" style="margin-top: 12px; text-align: left;"></div>
+    </div>
+
+    <!-- 核心内容 -->
+    <div class="content-panels">
+        <!-- 试卷主体 -->
+        <div class="exam-paper quiz-section" id="examPaper">
+            <div class="paper-header">
+                <div class="main-title">语文拼音专项练习</div>
+                <div class="sub-info">
+                    <div class="info-item">姓名：<span class="underline-space"></span></div>
+                    <div class="info-item">班级：<span class="underline-space"></span></div>
+                    <div class="info-item">日期：<span class="underline-space"></span></div>
+                    <div class="info-item total-score">总分：________</div>
+                </div>
+            </div>
+
+            <!-- 题目列表将动态渲染到这里 -->
+            <div id="wordsGridContainer" class="words-grid">
+                <div class="empty-message">👆 点击「生成试卷」开始练习</div>
+            </div>
+            <div class="footnote" style="margin-top: 30px; border-top: 1px dashed #aaa; padding-top: 12px;">
+                <span>✏️ 请将拼音写在横线上方 · 注意声调</span>
+            </div>
+        </div>
+
+        <!-- 答案区域 -->
+        <aside class="answer-card answer-section" id="answerPanel">
+            <div class="answer-header">
+                <div class="section-title">参考答案</div>
+                <button class="btn no-print" id="hideAnswerInlineBtn" style="padding:6px 18px;">👀 隐藏</button>
+            </div>
+            <div id="answerContainer">
+                <ul class="answer-list" id="answerList">
+                    <li class="empty-msg">— 暂无答案 —</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- 引入本地JavaScript文件 -->
+<script src="js/script.js"></script>
+
+<!-- ========== 扩展说明 & 使用指南 (代码注释形式) ========== -->
+<!--
+    【本地运行说明】
+    1. 将本文件保存为 index.html，双击即可在浏览器中运行。
+    2. 需要联网以加载 pinyin-pro CDN (unpkg)，若离线可下载库本地替换。
+    3. 所有功能均为纯前端，无需服务器。
+
+    【自定义/扩展词库】
+    - 在 rawWordBank 数组中按格式添加对象：
+      { text: "词语", type: "单字/双字词/成语/易错多音字", grade: 1~4 }
+    - grade 用于年级筛选，可自由设定。如不需要，可忽略或置为1。
+
+    【打印/PDF 注意事项】
+    - 点击「打印 / 导出PDF」前，可通过「打印包含答案」复选框决定输出内容。
+    - 推荐使用 Chrome/Edge 「另存为PDF」：打印对话框 > 目标 > 另存为PDF。
+    - 打印样式已优化 A4，分页时题目不会断裂 (page-break-inside:avoid)。
+    - 若打印时拼音未显示，请确保“打印包含答案”已勾选，且打印背景图形选项不影响文字。
+
+    【已知限制 & 后续优化】
+    - 多音字完全依赖 pinyin-pro 默认规则，少数语境下可能不准 (如“朝阳”)，可人工修正词库或使用更精确的词典。
+    - 暂未实现自动评分功能，后续可扩展答案比对。
+    - 打印时若出现分页异常，可微调 @media print 中的 padding/margin。
+    - 如需四线三格样式，可修改 .write-line 为背景图片或重复的线性渐变。
+-->
