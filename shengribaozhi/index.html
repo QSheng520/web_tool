@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>生日历史报纸生成器 | 岁月纪事 - 重现您出生那天的历史大事 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="生日历史报纸,历史事件查询,出生日历史,岁月纪事,历史回顾,纪念日生成器,复古报纸,历史大事记">
+    <meta name="description" content="输入您的生日，自动生成专属历史报纸！查看您出生那天发生的历史大事，重温岁月回响。支持打印保存PDF，复古报刊风格设计，免费在线使用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="生日历史报纸生成器 | 岁月纪事">
+    <meta property="og:description" content="输入生日，生成专属历史报纸，查看出生那天的历史大事">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置 canonical
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/shengribaozhi/';
+            
+            // 设置 Open Graph
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/shengribaozhi/';
+        });
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="newspaper-container" id="newspaperRoot">
+    <div class="newspaper">
+        <a href="../index.html" class="back-home-btn" title="返回首页" style="display: inline-block; margin-bottom: 16px; padding: 8px 16px; background: #b87c4f; color: #fef3df; text-decoration: none; border-radius: 4px; font-weight: bold; box-shadow: 1px 1px 0 #4e3622; transition: all 0.2s;">
+            🏠 返回首页
+        </a>
+        <div class="control-panel">
+            <div class="date-group">
+                <label>📅 诞辰之日</label>
+                <input type="date" id="birthDateInput" value="1995-08-23">
+                <button class="btn btn-generate" id="generateBtn">📰 生成纪念报</button>
+            </div>
+            <button class="btn btn-print" id="printBtn">🖨️ 打印 / 保存PDF</button>
+        </div>
+
+        <!-- 动态报纸版面将由js渲染到此区域 -->
+        <div id="newspaperContent">
+            <div class="placeholder-text" style="padding: 60px 20px; text-align: center;">
+                ✍️ 请在上方输入您的生日，<br>点击「生成纪念报」<br>重现岁月回响。
+            </div>
+        </div>
+        <div class="newspaper-footer">
+            本页面仅供个人纪念与学习使用，历史数据来源于公开资料，版面设计致敬经典新闻报刊风格，不代表任何官方立场。
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

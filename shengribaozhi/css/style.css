@@ -1,0 +1,366 @@
+/* 重置 & 基础复古氛围 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #4a3b2c;
+    background-image: radial-gradient(circle at 25% 40%, rgba(70, 55, 40, 0.3) 2%, transparent 2.5%),
+                      radial-gradient(circle at 70% 85%, rgba(50, 40, 30, 0.25) 1.8%, transparent 2%);
+    background-size: 48px 48px, 32px 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    font-family: "SimSun", "FangSong", "KaiTi", "Noto Serif SC", "Songti SC", serif;
+    min-height: 100vh;
+}
+
+/* 主报纸容器 — 泛黄纸质感核心 */
+.newspaper-container {
+    max-width: 1200px;
+    width: 100%;
+    background: #fdf8e7;
+    background-image: radial-gradient(circle at 10% 20%, rgba(210, 180, 140, 0.12) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px #d8c8a8 inset, 0 0 0 2px #f1e5c9 inset;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.2s;
+}
+
+/* 泛黄噪点 + 卷边伪元素 */
+.newspaper-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 30% 40%, rgba(100, 70, 40, 0.08), transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.newspaper-container::after {
+    content: "";
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    width: 140px;
+    height: 60px;
+    background: linear-gradient(135deg, transparent 40%, rgba(150, 110, 70, 0.2) 100%);
+    transform: skewX(-2deg) rotate(1deg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 主版面内部留白 */
+.newspaper {
+    padding: 32px 28px 28px 28px;
+    position: relative;
+    z-index: 2;
+}
+
+/* 报头区 (grid) */
+.newspaper__header {
+    border-bottom: 4px double #b87c4f;
+    margin-bottom: 28px;
+    text-align: center;
+    padding-bottom: 12px;
+}
+
+.newspaper__title {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: 6px;
+    color: #3e2a1f;
+    text-shadow: 2px 2px 0 #e2cfaa;
+    font-family: "SimHei", "Noto Serif SC", serif;
+    margin-bottom: 8px;
+}
+
+.newspaper__motto {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: #6f4e2e;
+    border-top: 1px solid #c6a27a;
+    display: inline-block;
+    padding-top: 6px;
+    margin-top: 6px;
+}
+
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    border-top: 1px solid #c7a87b;
+    padding-top: 8px;
+    color: #5a3a22;
+}
+
+/* 控制栏复古风 */
+.control-panel {
+    background: #efe3cf;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    border: 1px solid #dabb94;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.date-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.date-group label {
+    font-weight: bold;
+    color: #4a311c;
+}
+
+input[type="date"] {
+    background: #fff8ed;
+    border: 1px solid #bc8f6b;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #2b2b2b;
+}
+
+.btn {
+    background: #b87c4f;
+    border: none;
+    padding: 8px 20px;
+    font-family: "SimSun", serif;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #fef3df;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 1px 1px 0 #4e3622;
+    letter-spacing: 2px;
+}
+
+.btn:hover {
+    background: #9b623c;
+    transform: translate(-1px, -1px);
+    box-shadow: 2px 2px 0 #3c2a1b;
+}
+
+.btn-print {
+    background: #6f4e2e;
+}
+
+/* 打字机加载动画 */
+.loading-cursor {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 1.2rem;
+    background: #2e241a;
+    color: #efdbc1;
+    padding: 12px 18px;
+    letter-spacing: 2px;
+}
+.loading-cursor::after {
+    content: "▌";
+    animation: blink 1s step-end infinite;
+    margin-left: 4px;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* 报纸核心版面 GRID */
+.newspaper-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 28px;
+    margin-top: 16px;
+}
+
+/* 左侧主区域 */
+.main-content {
+    overflow: hidden;
+}
+
+/* 头条区域 */
+.headline {
+    border-bottom: 3px solid #b87c4f;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+}
+.headline h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #2c1a0c;
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+.headline .headline-year {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #aa6f3c;
+    letter-spacing: 1px;
+}
+.headline-desc {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 10px;
+    text-indent: 2em;
+}
+
+/* 多栏正文 */
+.multi-column {
+    column-count: 2;
+    column-gap: 32px;
+    column-rule: 1px solid #dac29c;
+    margin-top: 18px;
+}
+/* 每个事件条目，避免跨栏断裂 */
+.news-item {
+    break-inside: avoid-column;
+    margin-bottom: 1.6rem;
+    page-break-inside: avoid;
+}
+.news-item__year {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #a45d2e;
+    border-left: 4px solid #c68b54;
+    padding-left: 10px;
+    margin-bottom: 6px;
+}
+.news-item__text {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    text-align: justify;
+    text-indent: 2em;
+}
+/* 首字下沉效果 */
+.news-item__text::first-letter {
+    font-size: 2.2em;
+    font-weight: bold;
+    float: left;
+    line-height: 0.85;
+    margin-right: 6px;
+    color: #784e28;
+    font-family: "Times New Roman", serif;
+}
+
+/* 侧边栏 */
+.sidebar {
+    background: rgba(235, 218, 186, 0.4);
+    padding: 20px 16px;
+    border-left: 2px solid #e0c8a3;
+    font-size: 0.85rem;
+}
+.sidebar-block {
+    margin-bottom: 28px;
+}
+.sidebar-block h4 {
+    border-bottom: 1px dashed #ba8b58;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+    color: #67471f;
+}
+.quote {
+    font-style: italic;
+    line-height: 1.5;
+    color: #4a3a2a;
+}
+.timestamp {
+    font-family: monospace;
+    background: #e7d9c2;
+    padding: 6px;
+    text-align: center;
+}
+
+/* 页脚 */
+.newspaper-footer {
+    margin-top: 40px;
+    border-top: 1px solid #ceb27e;
+    padding-top: 14px;
+    font-size: 0.7rem;
+    text-align: center;
+    color: #7a623c;
+}
+
+/* 响应式 */
+@media (max-width: 780px) {
+    .newspaper-grid {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        border-left: none;
+        border-top: 2px solid #dabb94;
+        margin-top: 18px;
+    }
+    .multi-column {
+        column-count: 1;
+    }
+    .newspaper {
+        padding: 20px 18px;
+    }
+}
+
+/* 打印样式适配 */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+        margin: 0;
+    }
+    .control-panel, .btn-print, .btn, .loading-area, .btn-generate {
+        display: none !important;
+    }
+    .newspaper-container {
+        box-shadow: none;
+        background: #fffef7;
+        margin: 0;
+        padding: 0;
+    }
+    .newspaper-container::before, .newspaper-container::after {
+        display: none;
+    }
+    .sidebar {
+        background: #faf3e4;
+        border-left: 1px solid #ccc;
+    }
+    .newspaper {
+        padding: 0.6in;
+    }
+    a, .btn {
+        text-decoration: none;
+    }
+    .multi-column {
+        column-rule: 1px solid #aaa;
+    }
+}
+
+.error-message {
+    background: #ffe2bf;
+    padding: 20px;
+    border-left: 8px solid #b34e2e;
+    font-family: monospace;
+    margin: 20px 0;
+}
+.placeholder-text {
+    color: #896a42;
+    text-align: center;
+    padding: 40px;
+}
