@@ -133,10 +133,29 @@
         // 解析出生日期显示
         const birthDateObj = new Date(birthDateStr);
         const formattedBirth = `${birthDateObj.getFullYear()}年${birthDateObj.getMonth()+1}月${birthDateObj.getDate()}日`;
+        
+        // 农历日期模拟 (简化版)
+        const lunarMonths = ['正', '二', '三', '四', '五', '六', '七', '八', '九', '十', '冬', '腊'];
+        const lunarDays = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十',
+                          '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+                          '廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+        const monthIdx = (birthDateObj.getMonth()) % 12;
+        const dayIdx = (birthDateObj.getDate() - 1) % 30;
+        const lunarDate = `农历${lunarMonths[monthIdx]}月${lunarDays[dayIdx]}`;
+        
         // 期号自动生成: 基于日月组合+年份哈希感
         const dayNum = birthDateObj.getDate();
         const monthNum = birthDateObj.getMonth()+1;
-        const issueNumber = `辛丑纪 · 总第${Math.abs((birthDateObj.getFullYear() * monthNum + dayNum * 37) % 8999 + 1000)}期`;
+        const issueNumber = `总第${Math.abs((birthDateObj.getFullYear() * monthNum + dayNum * 37) % 8999 + 1000)}期`;
+        
+        // 天干地支纪年 (简化)
+        const tiangan = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+        const dizhi = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+        const yearOffset = birthDateObj.getFullYear() - 1984; // 1984是甲子年
+        const tgIndex = ((yearOffset % 10) + 10) % 10;
+        const dzIndex = ((yearOffset % 12) + 12) % 12;
+        const ganzhiYear = `${tiangan[tgIndex]}${dizhi[dzIndex]}年`;
+        
         // 口号占位
         const slogan = "秉笔直书 · 藏往知来";
         // 侧边栏名言库
@@ -144,19 +163,32 @@
             "「以史为镜，可以知兴替」—— 唐太宗",
             "「历史是过去传到将来的回声」—— 雨果",
             "「鉴于往事，有资于治道」——《资治通鉴》",
-            "「究天人之际，通古今之变」—— 司马迁"
+            "「究天人之际，通古今之变」—— 司马迁",
+            "「读史使人明智」—— 培根",
+            "「前事不忘，后事之师」——《战国策》"
         ];
         const randomQuote = quotesList[Math.floor(Math.random() * quotesList.length)];
-        // 天气占位
-        const weatherNote = "🌤️ 历史气象：纸墨凝香，宜读史怀旧 · 岁月晴方好";
+        // 天气占位（90年代风格，无emoji）
+        const weatherList = [
+            "晴 · 纸墨凝香，宜读史怀旧",
+            "多云 · 岁月静好，往事如烟",
+            "小雨 · 故纸堆中觅真知",
+            "阴转晴 · 拨云见日，史海钩沉",
+            "晴朗 · 阳光明媚，适合翻阅历史"
+        ];
+        const weatherNote = weatherList[Math.floor(Math.random() * weatherList.length)];
 
         // 生成多栏正文html (其余事件)
         let multiColumnHtml = '';
         if(restEvents.length){
-            restEvents.forEach(ev => {
+            restEvents.forEach((ev, index) => {
+                // 交替使用横排和竖排样式
+                const isVertical = index % 3 === 2; // 每3条中有1条竖排
+                const verticalClass = isVertical ? ' news-item--vertical' : '';
+                
                 multiColumnHtml += `
-                    <div class="news-item">
-                        <div class="news-item__year">📅 公元 ${ev.year} 年</div>
+                    <div class="news-item${verticalClass}">
+                        <div class="news-item__year">公元 ${ev.year} 年</div>
                         <div class="news-item__text">${escapeHtml(ev.text)}</div>
                     </div>
                 `;
@@ -165,11 +197,11 @@
             multiColumnHtml = `<div class="placeholder-text" style="font-style:italic;">暂无其他同期大事，岁月静好，亦为纪念。</div>`;
         }
 
-        // 头条详细内容
+        // 头条详细内容 - 大字标题风格
         const headlineHtml = `
             <div class="headline">
-                <h2>⚡ 头条特辑 · 岁月回响 ⚡</h2>
-                <div class="headline-year">${headlineEvent.year} 年</div>
+                <h2>【头条特辑】岁月回响</h2>
+                <div class="headline-year">—— ${headlineEvent.year} 年 ——</div>
                 <div class="headline-desc">${escapeHtml(headlineEvent.text)}</div>
             </div>
         `;
@@ -177,12 +209,12 @@
         // 完整版面
         return `
             <div class="newspaper__header">
-                <div class="newspaper__title">《歲月紀事》</div>
+                <div class="newspaper__title">岁月纪事</div>
                 <div class="newspaper__motto">${slogan}</div>
                 <div class="header-info">
-                    <span>📌 出版日期：${formattedBirth}</span>
-                    <span>🎞️ 期号：${issueNumber}</span>
-                    <span>🏷️ 号外 · 特刊</span>
+                    <span>${formattedBirth} · ${lunarDate}</span>
+                    <span>${ganzhiYear} · ${issueNumber}</span>
+                    <span>号外 · 诞辰特刊</span>
                 </div>
             </div>
             <div class="newspaper-grid">
@@ -194,20 +226,23 @@
                 </div>
                 <aside class="sidebar">
                     <div class="sidebar-block">
-                        <h4>📖 史海名言</h4>
+                        <h4>史海名言</h4>
                         <div class="quote">${randomQuote}</div>
                     </div>
                     <div class="sidebar-block">
-                        <h4>🌦️ 天气占位</h4>
+                        <h4>当日气象</h4>
                         <div>${weatherNote}</div>
                     </div>
                     <div class="sidebar-block">
-                        <h4>🕰️ 印行时刻</h4>
+                        <h4>印行时刻</h4>
                         <div class="timestamp">${generationTime}</div>
                     </div>
                     <div class="sidebar-block">
-                        <h4>🏷️ 印章·岁月</h4>
-                        <div style="font-family: KaiTi; font-size:1.2rem; opacity:0.7;">⚡ 故纸犹温 ⚡</div>
+                        <h4>岁月印章</h4>
+                        <div class="seal-stamp">
+                            <div>故纸犹温</div>
+                            <div style="font-size:0.85rem;">诞辰纪念</div>
+                        </div>
                     </div>
                 </aside>
             </div>
